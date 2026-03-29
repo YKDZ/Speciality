@@ -1,0 +1,45 @@
+# HRecipe
+
+> A lovely home recipe management app focused on practicality.
+
+HRecipe is a self-hosted, full-stack recipe manager built with Vue 3, Hono, and SQLite. It helps families organize recipes, plan meals, and generate shopping lists. Supports Chinese and English with automatic language detection.
+
+## Core Pages
+
+- `/` — Home page, lists all recipes with search and tag filtering
+- `/recipes/:id` — Recipe detail page with ingredients, cooking steps, images, and reviews
+- `/recipes/new` — Create a new recipe
+- `/combos` — Meal combo list, combine multiple recipes into one meal
+- `/combos/:id` — Combo detail page with included recipes and aggregated shopping list
+- `/combos/new` — Create a new combo
+- `/admin` — Admin control panel for managing ingredients, tags, and data
+
+## Features
+
+- Recipe CRUD with Markdown descriptions, multi-image upload, and ordered cooking steps
+- Ingredient and tag management with search and filtering
+- Meal combos — group multiple recipes, auto-calculate total cooking time
+- Shopping list generation — auto-merge same ingredients, copy as plain text
+- Cooking slideshow — fullscreen step-by-step view with images
+- Review system — rate and comment on recipes (toggleable via env var)
+- i18n — built-in Simplified Chinese and English, auto-detects browser language
+- Dark / light theme — follows system preference or manual toggle
+- SQLite database — zero-config, single-file persistence
+- Docker deployment — single command to run
+
+## MCP Server
+
+HRecipe provides a built-in [Model Context Protocol](https://modelcontextprotocol.io) server at the `/mcp` endpoint. AI assistants (Claude, GitHub Copilot, etc.) can connect via Streamable HTTP transport to manage recipe data programmatically.
+
+### MCP Client Configuration
+
+```json
+{
+  "servers": {
+    "hrecipe": {
+      "type": "streamable-http",
+      "url": "http://localhost:3000/mcp"
+    }
+  }
+}
+```

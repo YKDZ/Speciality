@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Steam (vertical wavy lines) -->
+  <path d="M23 21 Q19 17 23 13 Q27 9 23 5" fill="none" stroke="#FDBA74" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M32 19 Q28 15 32 11 Q36 7 32 3" fill="none" stroke="#FDBA74" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M41 21 Q37 17 41 13 Q45 9 41 5" fill="none" stroke="#FDBA74" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Pot lid knob -->
+  <rect x="27" y="22" width="10" height="5" rx="2.5" fill="#C2410C"/>
+
+  <!-- Pot lid arc -->
+  <path d="M16 30 Q16 24 32 24 Q48 24 48 30" fill="#EA580C"/>
+
+  <!-- Pot rim -->
+  <rect x="12" y="29" width="40" height="5" rx="2.5" fill="#EA580C"/>
+
+  <!-- Pot body -->
+  <path d="M14 34 L14 48 Q14 56 32 56 Q50 56 50 48 L50 34 Z" fill="#F97316"/>
+
+  <!-- Pot handles -->
+  <rect x="4" y="36" width="10" height="4" rx="2" fill="#EA580C"/>
+  <rect x="50" y="36" width="10" height="4" rx="2" fill="#EA580C"/>
+
+  <!-- Heart on pot -->
+  <path d="M27 42 C27 38.5 32 36 32 40 C32 36 37 38.5 37 42 C37 47 32 50 32 50 C32 50 27 47 27 42Z" fill="white" fill-opacity="0.9"/>
+</svg>

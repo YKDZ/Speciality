@@ -1,0 +1,13 @@
+node_modules
+dist
+.git
+.env
+*.db
+data/
+.agents
+.claude
+.devcontainer
+.github
+.pnpm-store
+.vscode
+uploads/

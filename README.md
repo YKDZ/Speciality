@@ -101,17 +101,17 @@ docker compose up -d
 
 ## Environment Variables
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `PORT` | `3000` | Server listening port |
-| `DATABASE_URL` | `/app/data/recipes.db` | SQLite database file path |
-| `UPLOAD_DIR` | `./data/uploads` | Upload image storage directory |
-| `MAX_FILE_SIZE` | `52428800` (50 MB) | Maximum upload file size in bytes |
-| `TITLE` | `HRecipe` | Page title |
-| `REVIEWS_ENABLED` | `true` | Enable review system (`true` / `false`) |
-| `FALLBACK_LOCALE` | `zh-CN` | Fallback language when browser language cannot be detected |
-| `HIDE_LANGUAGE_SWITCHER` | `false` | Hide the language switcher (`true` to hide) |
-| `FORCE_FALLBACK_LOCALE` | `false` | Force fallback language, ignoring browser and cookie settings |
+| Variable                 | Default                | Description                                                   |
+| ------------------------ | ---------------------- | ------------------------------------------------------------- |
+| `PORT`                   | `3000`                 | Server listening port                                         |
+| `DATABASE_URL`           | `/app/data/recipes.db` | SQLite database file path                                     |
+| `UPLOAD_DIR`             | `./data/uploads`       | Upload image storage directory                                |
+| `MAX_FILE_SIZE`          | `52428800` (50 MB)     | Maximum upload file size in bytes                             |
+| `TITLE`                  | `HRecipe`              | Page title                                                    |
+| `REVIEWS_ENABLED`        | `true`                 | Enable review system (`true` / `false`)                       |
+| `FALLBACK_LOCALE`        | `zh-CN`                | Fallback language when browser language cannot be detected    |
+| `HIDE_LANGUAGE_SWITCHER` | `false`                | Hide the language switcher (`true` to hide)                   |
+| `FORCE_FALLBACK_LOCALE`  | `false`                | Force fallback language, ignoring browser and cookie settings |
 
 > **Tip**: For a Chinese-only interface, set `FORCE_FALLBACK_LOCALE=true` and `HIDE_LANGUAGE_SWITCHER=true`.
 

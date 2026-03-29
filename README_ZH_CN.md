@@ -101,17 +101,17 @@ docker compose up -d
 
 ## 环境变量
 
-| 变量 | 默认值 | 说明 |
-|------|--------|------|
-| `PORT` | `3000` | 服务监听端口 |
-| `DATABASE_URL` | `/app/data/recipes.db` | SQLite 数据库文件路径 |
-| `UPLOAD_DIR` | `./data/uploads` | 上传图片存储目录 |
-| `MAX_FILE_SIZE` | `52428800` (50 MB) | 单个上传文件大小上限（字节） |
-| `TITLE` | `HRecipe` | 页面标题 |
-| `REVIEWS_ENABLED` | `true` | 是否启用评价系统（`true` / `false`） |
-| `FALLBACK_LOCALE` | `zh-CN` | 回退语言（无法检测浏览器语言时使用） |
-| `HIDE_LANGUAGE_SWITCHER` | `false` | 是否隐藏语言切换器（`true` 隐藏） |
-| `FORCE_FALLBACK_LOCALE` | `false` | 强制使用回退语言，忽略浏览器和 Cookie 设置 |
+| 变量                     | 默认值                 | 说明                                       |
+| ------------------------ | ---------------------- | ------------------------------------------ |
+| `PORT`                   | `3000`                 | 服务监听端口                               |
+| `DATABASE_URL`           | `/app/data/recipes.db` | SQLite 数据库文件路径                      |
+| `UPLOAD_DIR`             | `./data/uploads`       | 上传图片存储目录                           |
+| `MAX_FILE_SIZE`          | `52428800` (50 MB)     | 单个上传文件大小上限（字节）               |
+| `TITLE`                  | `HRecipe`              | 页面标题                                   |
+| `REVIEWS_ENABLED`        | `true`                 | 是否启用评价系统（`true` / `false`）       |
+| `FALLBACK_LOCALE`        | `zh-CN`                | 回退语言（无法检测浏览器语言时使用）       |
+| `HIDE_LANGUAGE_SWITCHER` | `false`                | 是否隐藏语言切换器（`true` 隐藏）          |
+| `FORCE_FALLBACK_LOCALE`  | `false`                | 强制使用回退语言，忽略浏览器和 Cookie 设置 |
 
 > **提示**：如果只需要中文界面，可设置 `FORCE_FALLBACK_LOCALE=true` + `HIDE_LANGUAGE_SWITCHER=true`。
 

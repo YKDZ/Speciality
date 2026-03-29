@@ -17,5 +17,8 @@
   },
   "oxc.enable.oxfmt": true,
   "oxc.enable.oxlint": true,
-  "oxc.requireConfig": false
+  "oxc.requireConfig": false,
+  "[markdown]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode"
+  }
 }

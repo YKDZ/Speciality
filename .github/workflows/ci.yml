@@ -15,6 +15,6 @@ jobs:
         with:
           cache: true
       - run: vp check
-      - run: npm typecheck
+      - run: npm run typecheck
       - run: node scripts/sync-i18n.mjs --check
       - run: vp test

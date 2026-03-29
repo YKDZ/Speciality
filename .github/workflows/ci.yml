@@ -15,6 +15,6 @@ jobs:
         with:
           cache: true
       - run: vp check
-      - run: vp exec vue-tsc --noEmit
-      - run: vp test
+      - run: pnpm typecheck
       - run: node scripts/sync-i18n.mjs --check
+      - run: vp test

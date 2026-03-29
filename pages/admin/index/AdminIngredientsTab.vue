@@ -136,11 +136,6 @@ const confirmDeleteIngredient = (ing: Ingredient) => {
     <template #row="{ item: ing }">
       <TableCell>
         <div class="flex items-center gap-2">
-          <img
-            v-if="ing.image"
-            :src="ing.image"
-            class="h-6 w-6 rounded-full object-cover"
-          />
           {{ ing.name }}
         </div>
       </TableCell>

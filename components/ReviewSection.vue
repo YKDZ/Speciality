@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useLocalStorage } from "@vueuse/core";
+import { usePageContext } from "vike-vue/usePageContext";
 import { reactive, ref } from "vue";
 import { useI18n } from "vue-i18n";
 
@@ -14,8 +15,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { onCreateReview } from "./ReviewSection.telefunc";
 
 const { t } = useI18n();
+const pageContext = usePageContext();
 
-const reviewsEnabled = __REVIEWS_ENABLED__;
+const reviewsEnabled = pageContext.globalContext.reviewsEnabled;
 
 const props = defineProps<{
   recipeId: string;

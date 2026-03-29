@@ -46,10 +46,10 @@
 - **Shopping List** — Auto-generated from recipes or combos, smart ingredient merging, grouped/merged views, one-click copy as plain text
 - **Cooking Slideshow** — Fullscreen step-by-step view with images, cook as you watch
 - **Review System** — Family members can rate and comment on recipes (toggleable via environment variable)
-- **i18n** — Built-in Simplified Chinese & English, auto-detects browser language
+- **i18n** — Full i18n support, auto-detects browser language
 - **Dark / Light Theme** — Follows system preference or manual toggle
 - **MCP Server** — Built-in [Model Context Protocol](https://modelcontextprotocol.io) server, AI assistants can manage recipes directly
-- **Export as Plain Text** — Shopping lists exportable as text or JSON for easy sharing
+- **Export as Plain Text** — Shopping lists exportable as text for easy sharing
 - **SQLite Database** — Zero-config, single-file persistence, perfect for home use
 - **Docker Deployment** — Up and running with a single command
 

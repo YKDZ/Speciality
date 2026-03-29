@@ -1,5 +1,5 @@
 import { usePageContext } from "vike-vue/usePageContext";
-import { ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 
 import { getClientI18n, loadLocaleMessages } from "@/lib/i18n";
@@ -29,18 +29,19 @@ const writePreferenceCookie = (value: string) => {
   document.cookie = `${COOKIE_NAME}=${value};path=/;max-age=${365 * 24 * 60 * 60};SameSite=Lax`;
 };
 
-/**
- * Whether the language switcher UI should be visible.
- * Hidden when either HIDE_LANGUAGE_SWITCHER or FORCE_FALLBACK_LOCALE is enabled.
- */
-export const showLanguageSwitcher =
-  !__HIDE_LANGUAGE_SWITCHER__ && !__FORCE_FALLBACK_LOCALE__;
-
 export const useLanguage = () => {
   const { locale: i18nLocale } = useI18n();
+  const pageContext = usePageContext();
+
+  const { hideLanguageSwitcher, forceFallbackLocale } =
+    pageContext.globalContext;
+
+  const showLanguageSwitcher = computed(
+    () => !hideLanguageSwitcher && !forceFallbackLocale,
+  );
 
   // When FORCE_FALLBACK_LOCALE is enabled, lock to FALLBACK_LOCALE
-  if (__FORCE_FALLBACK_LOCALE__) {
+  if (forceFallbackLocale) {
     const preference = ref<LocalePreference>(FALLBACK_LOCALE);
     const currentLocale = ref(FALLBACK_LOCALE);
     i18nLocale.value = FALLBACK_LOCALE;
@@ -51,10 +52,9 @@ export const useLanguage = () => {
       currentLocale,
       setPreference,
       supportedLocales: SUPPORTED_LOCALES,
+      showLanguageSwitcher,
     };
   }
-
-  const pageContext = usePageContext();
   const savedPref =
     readPreferenceCookie() ??
     ("localePreference" in pageContext ? pageContext.localePreference : null);
@@ -105,5 +105,6 @@ export const useLanguage = () => {
     currentLocale,
     setPreference,
     supportedLocales: SUPPORTED_LOCALES,
+    showLanguageSwitcher,
   };
 };

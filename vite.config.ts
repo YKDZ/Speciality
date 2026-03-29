@@ -8,15 +8,6 @@ import { defineConfig } from "vite-plus";
 export default defineConfig({
   define: {
     __VUE_PROD_DEVTOOLS__: false,
-    __REVIEWS_ENABLED__: JSON.stringify(
-      process.env.REVIEWS_ENABLED !== "false",
-    ),
-    __HIDE_LANGUAGE_SWITCHER__: JSON.stringify(
-      process.env.HIDE_LANGUAGE_SWITCHER === "true",
-    ),
-    __FORCE_FALLBACK_LOCALE__: JSON.stringify(
-      process.env.FORCE_FALLBACK_LOCALE === "true",
-    ),
   },
 
   resolve: {

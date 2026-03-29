@@ -12,7 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { showLanguageSwitcher, useLanguage } from "@/composables/useLanguage";
+import { useLanguage } from "@/composables/useLanguage";
 import { useTheme } from "@/composables/useTheme";
 
 const { t } = useI18n();
@@ -21,6 +21,7 @@ const {
   preference: localePref,
   setPreference: setLocalePref,
   supportedLocales,
+  showLanguageSwitcher,
 } = useLanguage();
 const pageContext = usePageContext();
 const mobileOpen = ref(false);

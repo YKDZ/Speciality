@@ -11,7 +11,7 @@ const reviewSchema = z.object({
 });
 
 export const onCreateReview = async (input: z.input<typeof reviewSchema>) => {
-  if (!__REVIEWS_ENABLED__) {
+  if (process.env.REVIEWS_ENABLED === "false") {
     throw new Error("Reviews are disabled");
   }
   const parsed = reviewSchema.parse(input);

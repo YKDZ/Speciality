@@ -13,6 +13,9 @@ declare global {
   namespace Vike {
     interface GlobalContext {
       title: string;
+      reviewsEnabled: boolean;
+      hideLanguageSwitcher: boolean;
+      forceFallbackLocale: boolean;
     }
 
     interface GlobalContextServer {
@@ -30,8 +33,4 @@ declare global {
   // vue-i18n feature flag used in production SSR
   // eslint-disable-next-line no-var
   var __VUE_PROD_DEVTOOLS__: boolean;
-
-  declare const __REVIEWS_ENABLED__: boolean;
-  declare const __HIDE_LANGUAGE_SWITCHER__: boolean;
-  declare const __FORCE_FALLBACK_LOCALE__: boolean;
 }

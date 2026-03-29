@@ -23,4 +23,9 @@ const prepareDB = () => {
 export const onCreateGlobalContext = (globalContext: GlobalContextServer) => {
   globalContext.db = prepareDB();
   globalContext.title = process.env.TITLE || "HRecipe";
+  globalContext.reviewsEnabled = process.env.REVIEWS_ENABLED !== "false";
+  globalContext.hideLanguageSwitcher =
+    process.env.HIDE_LANGUAGE_SWITCHER === "true";
+  globalContext.forceFallbackLocale =
+    process.env.FORCE_FALLBACK_LOCALE === "true";
 };

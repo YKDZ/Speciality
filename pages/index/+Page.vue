@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import { useDebounceFn, useIntersectionObserver } from "@vueuse/core";
+import {
+  breakpointsTailwind,
+  useDebounceFn,
+  useBreakpoints,
+  useIntersectionObserver,
+} from "@vueuse/core";
 import { Search } from "lucide-vue-next";
 import { useData } from "vike-vue/useData";
 import { computed, ref, watch } from "vue";
@@ -29,6 +34,22 @@ type EnrichedRecipe = (typeof initialRecipes)[number];
 const allRecipes = ref<EnrichedRecipe[]>([...initialRecipes]);
 const isLoading = ref(false);
 const searchTotal = ref(total);
+
+const breakpoints = useBreakpoints(breakpointsTailwind);
+const sm = breakpoints.greaterOrEqual("sm");
+const lg = breakpoints.greaterOrEqual("lg");
+const columnCount = computed(() => (lg.value ? 3 : sm.value ? 2 : 1));
+
+const columns = computed(() => {
+  const cols: EnrichedRecipe[][] = Array.from(
+    { length: columnCount.value },
+    () => [],
+  );
+  for (let i = 0; i < allRecipes.value.length; i += 1) {
+    cols[i % columnCount.value].push(allRecipes.value[i]);
+  }
+  return cols;
+});
 
 const searchQuery = ref("");
 const selectedTags = ref(new Set<string>());
@@ -164,16 +185,14 @@ useIntersectionObserver(sentinelRef, ([entry]) => {
     </div>
 
     <!-- Recipe waterfall -->
-    <div
-      v-if="allRecipes.length > 0"
-      class="columns-1 gap-4 sm:columns-2 lg:columns-3"
-    >
-      <RecipeCard
-        v-for="recipe in allRecipes"
-        :key="recipe.id"
-        :recipe="recipe"
-        class="mb-4 break-inside-avoid"
-      />
+    <div v-if="allRecipes.length > 0" class="flex gap-4">
+      <div
+        v-for="(col, colIdx) in columns"
+        :key="colIdx"
+        class="flex flex-1 flex-col gap-4"
+      >
+        <RecipeCard v-for="recipe in col" :key="recipe.id" :recipe="recipe" />
+      </div>
     </div>
     <div v-else class="py-20 text-center">
       <span class="text-5xl">📖</span>

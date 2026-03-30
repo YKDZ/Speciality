@@ -96,12 +96,15 @@ const shoppingItems = computed(() =>
       <!-- Header -->
       <div class="mb-8">
         <!-- Cover Image -->
-        <div v-if="recipe.coverImage" class="mb-6 overflow-hidden rounded">
+        <div
+          v-if="recipe.coverImage"
+          class="relative mb-6 aspect-video max-h-[400px] overflow-hidden rounded bg-muted"
+        >
           <img
             :src="recipe.coverImage"
             :alt="recipe.name"
-            class="w-full object-cover"
-            style="max-height: 400px"
+            class="absolute inset-0 h-full w-full object-cover"
+            style="object-fit: cover"
           />
         </div>
 

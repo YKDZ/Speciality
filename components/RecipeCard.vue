@@ -25,12 +25,13 @@ defineProps<{
       <!-- Cover Image -->
       <div
         v-if="recipe.coverImage"
-        class="aspect-video w-full overflow-hidden bg-muted"
+        class="relative aspect-video w-full overflow-hidden bg-muted"
       >
         <img
           :src="recipe.coverImage"
           :alt="recipe.name"
-          class="h-full w-full object-cover"
+          class="absolute inset-0 h-full w-full object-cover"
+          style="object-fit: cover"
           loading="lazy"
         />
       </div>

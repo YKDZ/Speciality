@@ -48,7 +48,8 @@ const rowHeight = computed(() =>
         <img
           :src="item.image"
           alt=""
-          class="h-full w-full object-cover object-center"
+          class="block h-full w-full object-cover object-center"
+          style="object-fit: cover"
           loading="lazy"
         />
       </div>

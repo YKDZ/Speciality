@@ -12,6 +12,7 @@ import { useI18n } from "vue-i18n";
 
 import RecipeCard from "@/components/RecipeCard.vue";
 import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
 
 import type { Data } from "./+data";
 
@@ -35,7 +36,7 @@ const allRecipes = ref<EnrichedRecipe[]>([...initialRecipes]);
 const isLoading = ref(false);
 const searchTotal = ref(total);
 
-const breakpoints = useBreakpoints(breakpointsTailwind);
+const breakpoints = useBreakpoints(breakpointsTailwind, { ssrWidth: 1024 });
 const sm = breakpoints.greaterOrEqual("sm");
 const lg = breakpoints.greaterOrEqual("lg");
 const columnCount = computed(() => (lg.value ? 3 : sm.value ? 2 : 1));
@@ -184,8 +185,30 @@ useIntersectionObserver(sentinelRef, ([entry]) => {
       </button>
     </div>
 
+    <!-- Skeleton placeholders while loading -->
+    <div v-if="isLoading && allRecipes.length === 0" class="flex gap-4">
+      <div
+        v-for="colIdx in columnCount"
+        :key="colIdx"
+        class="flex flex-1 flex-col gap-4"
+      >
+        <div v-for="i in 2" :key="i" class="overflow-hidden rounded-lg border">
+          <Skeleton class="aspect-video w-full" />
+          <div class="p-4">
+            <Skeleton class="h-5 w-3/4" />
+            <Skeleton class="mt-2 h-4 w-full" />
+            <Skeleton class="mt-1 h-4 w-2/3" />
+            <div class="mt-3 flex gap-2">
+              <Skeleton class="h-5 w-16 rounded-full" />
+              <Skeleton class="h-5 w-12 rounded-full" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Recipe waterfall -->
-    <div v-if="allRecipes.length > 0" class="flex gap-4">
+    <div v-else-if="allRecipes.length > 0" class="flex gap-4">
       <div
         v-for="(col, colIdx) in columns"
         :key="colIdx"
@@ -194,6 +217,8 @@ useIntersectionObserver(sentinelRef, ([entry]) => {
         <RecipeCard v-for="recipe in col" :key="recipe.id" :recipe="recipe" />
       </div>
     </div>
+
+    <!-- Empty state -->
     <div v-else class="py-20 text-center">
       <span class="text-5xl">📖</span>
       <p class="mt-4 text-lg text-(--color-on-surface-muted)">

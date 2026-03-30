@@ -5,6 +5,7 @@ import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 
 import RecipeCard from "@/components/RecipeCard.vue";
+import { Skeleton } from "@/components/ui/skeleton";
 
 import type { Data } from "./+data";
 
@@ -16,6 +17,7 @@ const { recipes, tags: allTags } = useData<Data>();
 const searchQuery = ref("");
 const selectedTag = ref<string | null>(null);
 const searchResults = ref<typeof recipes | null>(null);
+const isLoading = ref(false);
 
 const toggleTag = (tagId: string) => {
   selectedTag.value = selectedTag.value === tagId ? null : tagId;
@@ -39,12 +41,17 @@ const onSearch = async () => {
     searchResults.value = null;
     return;
   }
-  const results = await onSearchRecipes(q);
-  // Re-enrich with tags from local data
-  searchResults.value = results.map((r) => {
-    const existing = recipes.find((orig) => orig.id === r.id);
-    return { ...r, tags: existing?.tags ?? [] };
-  });
+  isLoading.value = true;
+  try {
+    const results = await onSearchRecipes(q);
+    // Re-enrich with tags from local data
+    searchResults.value = results.map((r) => {
+      const existing = recipes.find((orig) => orig.id === r.id);
+      return { ...r, tags: existing?.tags ?? [] };
+    });
+  } finally {
+    isLoading.value = false;
+  }
 };
 </script>
 
@@ -100,8 +107,28 @@ const onSearch = async () => {
       {{ t("共 {count} 个食谱", { count: filteredRecipes.length }) }}
     </p>
 
+    <!-- Skeleton placeholders while loading -->
+    <div v-if="isLoading" class="columns-1 gap-4 sm:columns-2 lg:columns-3">
+      <div
+        v-for="i in 6"
+        :key="i"
+        class="mb-4 break-inside-avoid overflow-hidden rounded-lg border"
+      >
+        <Skeleton class="aspect-video w-full" />
+        <div class="p-4">
+          <Skeleton class="h-5 w-3/4" />
+          <Skeleton class="mt-2 h-4 w-full" />
+          <Skeleton class="mt-1 h-4 w-2/3" />
+          <div class="mt-3 flex gap-2">
+            <Skeleton class="h-5 w-16 rounded-full" />
+            <Skeleton class="h-5 w-12 rounded-full" />
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Empty state -->
-    <div v-if="filteredRecipes.length === 0" class="py-20 text-center">
+    <div v-else-if="filteredRecipes.length === 0" class="py-20 text-center">
       <span class="text-5xl">📖</span>
       <p class="mt-4 text-lg text-(--color-on-surface-muted)">
         {{ t("暂无食谱") }}

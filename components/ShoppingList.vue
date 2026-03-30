@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useClipboard } from "@vueuse/core";
 import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { toast } from "vue-sonner";
@@ -21,6 +20,29 @@ import {
   groupShoppingItems,
 } from "@/lib/export";
 
+/**
+ * execCommand('copy') 必须在同步的用户手势调用栈内执行，
+ * 如果先 await clipboard.writeText 再回退到 execCommand，
+ * 用户手势上下文已断开，execCommand 也会静默失败。
+ * 因此在非安全上下文中直接同步走 execCommand，不经过 async 路径。
+ */
+const copyToClipboard = async (text: string) => {
+  if (window.isSecureContext && navigator.clipboard?.writeText) {
+    await navigator.clipboard.writeText(text);
+    return;
+  }
+
+  const ta = document.createElement("textarea");
+  ta.value = text;
+  ta.style.position = "fixed";
+  ta.style.opacity = "0";
+  ta.setAttribute("readonly", "");
+  document.body.appendChild(ta);
+  ta.select();
+  document.execCommand("copy");
+  ta.remove();
+};
+
 export interface ShoppingItem {
   ingredientId: string;
   ingredientName: string;
@@ -39,7 +61,6 @@ const props = withDefaults(
 );
 
 const { t } = useI18n();
-const { copy, copied } = useClipboard({ legacy: true });
 const showMerged = ref(true);
 
 const isSingleRecipe = computed(() => {
@@ -59,7 +80,7 @@ const handleCopyText = () => {
   const text = showMerged.value
     ? exportMergedAsText(mergedItems.value, titleStr, isSingleRecipe.value)
     : exportGroupedAsText(groupedItems.value, titleStr, isSingleRecipe.value);
-  void copy(text).then(() => {
+  void copyToClipboard(text).then(() => {
     toast(t("已复制到剪贴板"));
   });
 };

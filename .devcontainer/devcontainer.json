@@ -57,6 +57,16 @@
         },
         "editor.codeActionsOnSave": {
           "source.fixAll.oxc": "always"
+        },
+        "editor.formatOnSaveMode": "file",
+        "[yaml]": {
+          "editor.defaultFormatter": "oxc.oxc-vscode"
+        },
+        "oxc.enable.oxfmt": true,
+        "oxc.enable.oxlint": true,
+        "oxc.requireConfig": false,
+        "[markdown]": {
+          "editor.defaultFormatter": "oxc.oxc-vscode"
         }
       }
     }

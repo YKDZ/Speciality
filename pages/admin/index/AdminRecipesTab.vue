@@ -100,9 +100,9 @@ const handleExport = async (ids: string[]) => {
 
     <template #row="{ item: recipe }">
       <TableCell>
-        <a :href="`/recipe/${recipe.id}`" class="hover:underline">{{
+        <Button as="a" :href="`/recipe/${recipe.id}`" variant="link">{{
           recipe.name
-        }}</a>
+        }}</Button>
       </TableCell>
       <TableCell class="text-(--color-on-surface-muted)">
         {{

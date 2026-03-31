@@ -4,6 +4,7 @@ import { navigate } from "vike/client/router";
 import { useI18n } from "vue-i18n";
 
 import RecipeForm from "@/components/RecipeForm.vue";
+import { Button } from "@/components/ui/button";
 
 import type { Data } from "./+data";
 
@@ -51,9 +52,9 @@ const onSave = async (formData: {
   <div>
     <div class="mb-6 flex items-center justify-between">
       <h1 class="text-3xl font-bold tracking-tight">{{ t("新建食谱") }}</h1>
-      <a href="/" class="text-sm text-on-surface-muted hover:text-primary">
+      <Button as="a" href="/" variant="ghost" size="sm">
         {{ t("取消") }}
-      </a>
+      </Button>
     </div>
 
     <RecipeForm

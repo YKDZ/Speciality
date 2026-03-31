@@ -2,6 +2,8 @@
 import { usePageContext } from "vike-vue/usePageContext";
 import { useI18n } from "vue-i18n";
 
+import { Button } from "@/components/ui/button";
+
 const { t } = useI18n();
 const pageContext = usePageContext();
 let { is404, abortReason } = pageContext;
@@ -16,11 +18,8 @@ const heading = is404 ? "404" : "500";
     <span class="text-6xl">{{ is404 ? "🔍" : "⚠️" }}</span>
     <h1 class="mt-4 text-3xl font-bold">{{ heading }}</h1>
     <p class="mt-2 text-on-surface-muted">{{ abortReason }}</p>
-    <a
-      href="/"
-      class="mt-6 inline-flex items-center gap-2 rounded bg-primary px-5 py-2.5 text-sm font-semibold text-(--color-on-primary) transition-colors hover:bg-(--color-primary-hover)"
-    >
+    <Button as="a" href="/" class="mt-6">
       {{ t("返回") }}
-    </a>
+    </Button>
   </div>
 </template>

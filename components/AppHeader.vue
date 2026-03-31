@@ -24,7 +24,6 @@ import {
 import { useLanguage } from "@/composables/useLanguage";
 import { useTheme } from "@/composables/useTheme";
 
-import { buttonVariants } from "./ui/button";
 import Button from "./ui/button/Button.vue";
 
 const { t } = useI18n();
@@ -102,21 +101,25 @@ const handleImportFile = async (e: Event) => {
       class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8"
     >
       <!-- Logo & Title -->
-      <a
+      <Button
+        as="a"
         href="/"
-        class="flex items-center gap-2 text-lg font-bold tracking-tight"
+        variant="ghost"
+        class="text-lg font-bold tracking-tight"
       >
         <img :src="logoUrl" alt="Logo" class="size-7" />
         <span>{{ pageContext.globalContext.title }}</span>
-      </a>
+      </Button>
 
       <!-- Desktop Nav -->
       <nav class="hidden items-center gap-6 text-sm font-medium md:flex">
-        <a
+        <Button
           v-for="link in navLinks"
           :key="link.href"
+          as="a"
           :href="link.href"
-          class="transition-colors hover:text-(--color-primary)"
+          variant="ghost"
+          size="sm"
           :class="
             isActive(link.href)
               ? 'font-semibold text-(--color-primary)'
@@ -124,7 +127,7 @@ const handleImportFile = async (e: Event) => {
           "
         >
           {{ link.label }}
-        </a>
+        </Button>
       </nav>
 
       <!-- Actions (desktop) -->
@@ -207,11 +210,14 @@ const handleImportFile = async (e: Event) => {
       v-if="mobileOpen"
       class="border-t border-(--color-border) px-4 pt-2 pb-4 md:hidden"
     >
-      <a
+      <Button
         v-for="link in navLinks"
         :key="link.href"
+        as="a"
         :href="link.href"
-        class="block rounded px-3 py-2 text-sm font-medium transition-colors hover:bg-(--color-surface-hover)"
+        variant="ghost"
+        size="sm"
+        class="w-full justify-start"
         :class="
           isActive(link.href)
             ? 'text-(--color-primary)'
@@ -220,7 +226,7 @@ const handleImportFile = async (e: Event) => {
         @click="mobileOpen = false"
       >
         {{ link.label }}
-      </a>
+      </Button>
 
       <div class="my-2 border-t border-(--color-border)" />
 

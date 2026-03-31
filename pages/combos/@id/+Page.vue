@@ -70,8 +70,12 @@ const shoppingItems = computed<ShoppingItem[]>(() =>
         >
           {{ t("采购表") }}
         </Button>
-        <Button variant="outline" as-child>
-          <a :href="`/combos/${data.combo.id}/edit`">{{ t("编辑搭配") }}</a>
+        <Button
+          variant="outline"
+          as="a"
+          :href="`/combos/${data.combo.id}/edit`"
+        >
+          {{ t("编辑搭配") }}
         </Button>
         <AlertDialog>
           <AlertDialogTrigger as-child>

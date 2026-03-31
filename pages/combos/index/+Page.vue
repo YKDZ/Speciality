@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useData } from "vike-vue/useData";
+import { navigate } from "vike/client/router";
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 
@@ -26,8 +27,8 @@ const combos = ref(data.combos);
   <div class="container mx-auto max-w-4xl px-4 py-8">
     <div class="mb-6 flex items-center justify-between">
       <h1 class="text-2xl font-bold">{{ t("搭配") }}</h1>
-      <Button as-child>
-        <a href="/combos/new">{{ t("新建搭配") }}</a>
+      <Button @click="navigate('/combos/new')">
+        {{ t("新建搭配") }}
       </Button>
     </div>
 

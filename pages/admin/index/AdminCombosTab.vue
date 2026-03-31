@@ -62,9 +62,9 @@ const confirmDeleteCombo = (combo: Combo) => {
 
     <template #row="{ item: combo }">
       <TableCell>
-        <a :href="`/combos/${combo.id}`" class="hover:underline">{{
+        <Button as="a" :href="`/combos/${combo.id}`" variant="link">{{
           combo.name
-        }}</a>
+        }}</Button>
       </TableCell>
       <TableCell class="text-(--color-on-surface-muted)">
         {{

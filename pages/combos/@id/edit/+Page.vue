@@ -4,6 +4,7 @@ import { navigate } from "vike/client/router";
 import { useI18n } from "vue-i18n";
 
 import ComboForm from "@/components/ComboForm.vue";
+import { Button } from "@/components/ui/button";
 
 import type { Data } from "./+data";
 
@@ -48,12 +49,14 @@ const handleSave = async (formData: {
   <div class="container mx-auto max-w-2xl px-4 py-8">
     <div class="mb-6 flex items-center justify-between">
       <h1 class="text-2xl font-bold">{{ t("编辑搭配") }}</h1>
-      <a
+      <Button
+        as="a"
         :href="`/combos/${data.combo.id}`"
-        class="text-sm text-muted-foreground hover:text-primary"
+        variant="ghost"
+        size="sm"
       >
         {{ t("取消") }}
-      </a>
+      </Button>
     </div>
     <ComboForm
       :all-recipes="data.allRecipes"

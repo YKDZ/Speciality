@@ -98,7 +98,7 @@ export const mergeAmounts = (amounts: ShoppingAmount[]): MergedAmountLine[] => {
       }
     } else {
       const display =
-        a.quantity || a.unit ? `${a.quantity ?? ""} ${a.unit ?? ""}` : "—";
+        a.quantity || a.unit ? `${a.quantity ?? ""} ${a.unit ?? ""}` : "-";
       nonNumeric.push({ display, recipeNames: [a.recipeName] });
     }
   }
@@ -124,7 +124,7 @@ export const buildMergedItems = (
   }));
 
 const amountDisplay = (a: ShoppingAmount) =>
-  a.quantity || a.unit ? `${a.quantity ?? ""} ${a.unit ?? ""}` : "—";
+  a.quantity || a.unit ? `${a.quantity ?? ""} ${a.unit ?? ""}` : "-";
 
 /** Export grouped (separated) view as text. */
 export const exportGroupedAsText = (
@@ -141,7 +141,7 @@ export const exportGroupedAsText = (
       })
       .join("、");
     const noteInfo = item.note ? ` [${item.note}]` : "";
-    lines.push(`- ${item.ingredientName}：${amounts}${noteInfo}`);
+    lines.push(`- ${item.ingredientName}: ${amounts}${noteInfo}`);
   }
   return lines.join("\n");
 };
@@ -161,7 +161,7 @@ export const exportMergedAsText = (
       })
       .join("、");
     const noteInfo = item.note ? ` [${item.note}]` : "";
-    lines.push(`- ${item.ingredientName}：${amounts}${noteInfo}`);
+    lines.push(`- ${item.ingredientName}: ${amounts}${noteInfo}`);
   }
   return lines.join("\n");
 };

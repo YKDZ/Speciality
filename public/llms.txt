@@ -6,26 +6,26 @@ HRecipe is a self-hosted, full-stack recipe manager built with Vue 3, Hono, and 
 
 ## Core Pages
 
-- `/` — Home page, lists all recipes with search and tag filtering
-- `/recipes/:id` — Recipe detail page with ingredients, cooking steps, images, and reviews
-- `/recipes/new` — Create a new recipe
-- `/combos` — Meal combo list, combine multiple recipes into one meal
-- `/combos/:id` — Combo detail page with included recipes and aggregated shopping list
-- `/combos/new` — Create a new combo
-- `/admin` — Admin control panel for managing ingredients, tags, and data
+- `/` - Home page, lists all recipes with search and tag filtering
+- `/recipe/:id` - Recipe detail page with ingredients, cooking steps, images, and reviews
+- `/recipe/new` - Create a new recipe
+- `/combos` - Meal combo list, combine multiple recipes into one meal
+- `/combos/:id` - Combo detail page with included recipes and aggregated shopping list
+- `/combos/new` - Create a new combo
+- `/admin` - Admin control panel for managing ingredients, tags, and data
 
 ## Features
 
 - Recipe CRUD with Markdown descriptions, multi-image upload, and ordered cooking steps
 - Ingredient and tag management with search and filtering
-- Meal combos — group multiple recipes, auto-calculate total cooking time
-- Shopping list generation — auto-merge same ingredients, copy as plain text
-- Cooking slideshow — fullscreen step-by-step view with images
-- Review system — rate and comment on recipes (toggleable via env var)
-- i18n — built-in Simplified Chinese and English, auto-detects browser language
-- Dark / light theme — follows system preference or manual toggle
-- SQLite database — zero-config, single-file persistence
-- Docker deployment — single command to run
+- Meal combos - group multiple recipes, auto-calculate total cooking time
+- Shopping list generation - auto-merge same ingredients, copy as plain text
+- Cooking slideshow - fullscreen step-by-step view with images
+- Review system - rate and comment on recipes (toggleable via env var)
+- i18n - built-in Simplified Chinese and English, auto-detects browser language
+- Dark / light theme - follows system preference or manual toggle
+- SQLite database - zero-config, single-file persistence
+- Docker deployment - single command to run
 
 ## MCP Server
 

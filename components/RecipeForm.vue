@@ -1,5 +1,12 @@
 <script setup lang="ts">
-import { GripHorizontal, MoreVertical, Plus, X } from "lucide-vue-next";
+import {
+  GripHorizontal,
+  MoreVertical,
+  Plus,
+  X,
+  ArrowUp,
+  ArrowDown,
+} from "lucide-vue-next";
 import Sortable from "sortablejs";
 import { onBeforeUnmount, onMounted, reactive, ref } from "vue";
 import { useI18n } from "vue-i18n";
@@ -344,9 +351,9 @@ const onSubmit = () => {
 
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
       <div>
-        <Label class="mb-1 block text-sm font-medium"
-          >{{ t("预计用时") }}（{{ t("分钟") }}）</Label
-        >
+        <Label class="mb-1 block text-sm font-medium">{{
+          t("预计用时（分钟）")
+        }}</Label>
         <Input v-model.number="form.estimatedTime" type="number" min="1" />
       </div>
       <div>
@@ -361,15 +368,13 @@ const onSubmit = () => {
           />
         </div>
         <div class="flex items-center gap-2">
-          <input
+          <Input
             type="file"
             accept="image/jpeg,image/png,image/gif,image/webp,image/svg+xml"
-            class="block flex-1 cursor-pointer text-sm text-(--color-on-surface-muted) file:mr-3 file:rounded-md file:border-0 file:bg-primary file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-primary-foreground hover:file:bg-primary/90"
             @change="uploadCoverImage"
           />
           <Button
             v-if="form.coverImage"
-            type="button"
             variant="destructive"
             size="sm"
             @click="form.coverImage = ''"
@@ -400,11 +405,11 @@ const onSubmit = () => {
 
     <div>
       <Label class="mb-2 block text-sm font-medium">{{ t("食材列表") }}</Label>
-      <div ref="ingredientsContainerRef" class="space-y-2">
+      <div ref="ingredientsContainerRef" class="space-y-4 sm:space-y-2">
         <div
           v-for="(item, idx) in form.ingredients"
           :key="idx"
-          class="flex flex-col gap-2 sm:flex-row sm:items-center"
+          class="flex flex-col gap-2 rounded-lg border border-(--color-border) p-3 sm:flex-row sm:items-center sm:rounded-none sm:border-0 sm:p-0"
         >
           <span
             class="ingredient-drag-handle hidden cursor-grab text-(--color-on-surface-muted) hover:text-(--color-primary) sm:block"
@@ -413,24 +418,31 @@ const onSubmit = () => {
           </span>
           <div class="flex items-center gap-0.5 sm:hidden">
             <Button
-              type="button"
               variant="ghost"
               size="icon"
               class="h-7 w-7"
               :disabled="idx === 0"
               @click="moveIngredientUp(idx)"
             >
-              ↑
+              <ArrowUp />
             </Button>
             <Button
-              type="button"
               variant="ghost"
               size="icon"
               class="h-7 w-7"
               :disabled="idx === form.ingredients.length - 1"
               @click="moveIngredientDown(idx)"
             >
-              ↓
+              <ArrowDown />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              class="ml-auto h-7 w-7 shrink-0 text-(--color-danger) hover:text-(--color-danger)"
+              :title="t('移除食材')"
+              @click="form.ingredients.splice(idx, 1)"
+            >
+              <X class="h-4 w-4" />
             </Button>
           </div>
           <IngredientCombobox
@@ -451,10 +463,9 @@ const onSubmit = () => {
             class="sm:w-40"
           />
           <Button
-            type="button"
             variant="ghost"
             size="icon"
-            class="shrink-0 text-(--color-danger) hover:text-(--color-danger)"
+            class="hidden shrink-0 text-(--color-danger) hover:text-(--color-danger) sm:inline-flex"
             :title="t('移除食材')"
             @click="form.ingredients.splice(idx, 1)"
           >
@@ -463,17 +474,12 @@ const onSubmit = () => {
         </div>
       </div>
       <div class="mt-2 flex gap-2">
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          @click="addIngredientRow"
-        >
+        <Button variant="outline" size="sm" @click="addIngredientRow">
           <Plus class="size-4" />{{ t("添加食材") }}
         </Button>
         <Dialog v-model:open="showNewIngredientDialog">
           <DialogTrigger as-child>
-            <Button type="button" variant="outline" size="sm">
+            <Button variant="outline" size="sm">
               <Plus class="size-4" />{{ t("新建食材") }}
             </Button>
           </DialogTrigger>
@@ -496,9 +502,7 @@ const onSubmit = () => {
               </div>
             </div>
             <DialogFooter>
-              <Button type="button" @click="createIngredientInline">{{
-                t("保存")
-              }}</Button>
+              <Button @click="createIngredientInline">{{ t("保存") }}</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
@@ -520,24 +524,20 @@ const onSubmit = () => {
                 </span>
                 <div class="flex gap-0.5 sm:hidden">
                   <Button
-                    type="button"
                     variant="ghost"
-                    size="icon"
-                    class="h-7 w-7"
+                    size="icon-sm"
                     :disabled="idx === 0"
                     @click="moveStepUp(idx)"
                   >
-                    ↑
+                    <ArrowUp />
                   </Button>
                   <Button
-                    type="button"
                     variant="ghost"
-                    size="icon"
-                    class="h-7 w-7"
+                    size="icon-sm"
                     :disabled="idx === form.steps.length - 1"
                     @click="moveStepDown(idx)"
                   >
-                    ↓
+                    <ArrowDown />
                   </Button>
                 </div>
                 <span class="text-xs font-semibold text-(--color-primary)">
@@ -552,12 +552,7 @@ const onSubmit = () => {
               <div class="flex items-center gap-0.5">
                 <DropdownMenu>
                   <DropdownMenuTrigger as-child>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      class="h-7 w-7"
-                    >
+                    <Button variant="ghost" size="icon" class="h-7 w-7">
                       <MoreVertical class="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
@@ -571,7 +566,6 @@ const onSubmit = () => {
                   </DropdownMenuContent>
                 </DropdownMenu>
                 <Button
-                  type="button"
                   variant="ghost"
                   size="icon"
                   class="h-7 w-7 text-(--color-danger) hover:text-(--color-danger)"
@@ -591,12 +585,7 @@ const onSubmit = () => {
           </div>
         </template>
       </div>
-      <Button
-        type="button"
-        variant="outline"
-        class="mt-4 w-full"
-        @click="addStep"
-      >
+      <Button variant="outline" class="mt-4 w-full" @click="addStep">
         <Plus class="size-4" />
         {{ t("添加步骤") }}
       </Button>

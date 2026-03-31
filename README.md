@@ -17,8 +17,8 @@
     <td width="50%"><img src="docs/README/recipe_details.png" alt="Recipe Details" /></td>
   </tr>
   <tr>
-    <td align="center">Recipe List — Search & Tag Filtering</td>
-    <td align="center">Recipe Details — Ingredients & Steps at a Glance</td>
+    <td align="center">Recipe List - Search & Tag Filtering</td>
+    <td align="center">Recipe Details - Ingredients & Steps at a Glance</td>
   </tr>
   <tr>
     <td width="50%"><img src="docs/README/combos.png" alt="Combo List" /></td>
@@ -26,32 +26,32 @@
   </tr>
   <tr>
     <td align="center">Combo List</td>
-    <td align="center">Combo Details — Multi-Dish Meal Planning</td>
+    <td align="center">Combo Details - Multi-Dish Meal Planning</td>
   </tr>
   <tr>
     <td width="50%"><img src="docs/README/shopping_list.png" alt="Shopping List" /></td>
     <td width="50%"><img src="docs/README/slideshow.png" alt="Cooking Slideshow" /></td>
   </tr>
   <tr>
-    <td align="center">Shopping List — Auto-Merge & One-Click Copy</td>
-    <td align="center">Cooking Slideshow — Cook as You Watch</td>
+    <td align="center">Shopping List - Auto-Merge & One-Click Copy</td>
+    <td align="center">Cooking Slideshow - Cook as You Watch</td>
   </tr>
 </table>
 
 ## Features
 
-- **Recipe Management** — Create, edit, delete recipes; Markdown descriptions & steps; multi-image upload
-- **Ingredients & Tags** — Unified ingredient library and tag system with search and filtering
-- **Combos** — Combine multiple dishes into a single meal, auto-calculate total cooking time
-- **Shopping List** — Auto-generated from recipes or combos, smart ingredient merging, grouped/merged views, one-click copy as plain text
-- **Cooking Slideshow** — Fullscreen step-by-step view with images, cook as you watch
-- **Review System** — Family members can rate and comment on recipes (toggleable via environment variable)
-- **i18n** — Full i18n support, auto-detects browser language
-- **Dark / Light Theme** — Follows system preference or manual toggle
-- **MCP Server** — Built-in [Model Context Protocol](https://modelcontextprotocol.io) server, AI assistants can manage recipes directly
-- **Export as Plain Text** — Shopping lists exportable as text for easy sharing
-- **SQLite Database** — Zero-config, single-file persistence, perfect for home use
-- **Docker Deployment** — Up and running with a single command
+- **Recipe Management** - Create, edit, delete recipes; Markdown descriptions & steps; multi-image upload
+- **Ingredients & Tags** - Unified ingredient library and tag system with search and filtering
+- **Combos** - Combine multiple dishes into a single meal, auto-calculate total cooking time
+- **Shopping List** - Auto-generated from recipes or combos, smart ingredient merging, grouped/merged views, one-click copy as plain text
+- **Cooking Slideshow** - Fullscreen step-by-step view with images, cook as you watch
+- **Review System** - Family members can rate and comment on recipes (toggleable via environment variable)
+- **i18n** - Full i18n support, auto-detects browser language
+- **Dark / Light Theme** - Follows system preference or manual toggle
+- **MCP Server** - Built-in [Model Context Protocol](https://modelcontextprotocol.io) server, AI assistants can manage recipes directly
+- **Export as Plain Text** - Shopping lists exportable as text for easy sharing
+- **SQLite Database** - Zero-config, single-file persistence, perfect for home use
+- **Docker Deployment** - Up and running with a single command
 
 ## Deployment
 

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { navigate } from "vike/client/router";
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 
@@ -7,14 +8,14 @@ import type { Combo } from "@/database/drizzle/schema/combos";
 import AdminDataTable from "@/components/AdminDataTable.vue";
 import {
   AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
   AlertDialogTitle,
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialogDescription,
+  AlertDialogCancel,
 } from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 import { TableCell, TableHead } from "@/components/ui/table";
 
 import { onDeleteCombo } from "./AdminCombosTab.telefunc";
@@ -66,20 +67,19 @@ const confirmDeleteCombo = (combo: Combo) => {
         }}</a>
       </TableCell>
       <TableCell class="text-(--color-on-surface-muted)">
-        {{ combo.estimatedTime ? `${combo.estimatedTime} ${t("分钟")}` : "—" }}
+        {{
+          combo.estimatedTime
+            ? t("约 {time} 分钟", { time: combo.estimatedTime })
+            : "-"
+        }}
       </TableCell>
       <TableCell class="text-right">
-        <a
-          :href="`/combos/${combo.id}/edit`"
-          class="mr-3 text-(--color-primary) hover:underline"
-          >{{ t("编辑") }}</a
-        >
-        <button
-          class="text-(--color-danger) hover:underline"
-          @click="confirmDeleteCombo(combo)"
-        >
+        <Button @click="navigate(`/combos/${combo.id}/edit`)">{{
+          t("编辑")
+        }}</Button>
+        <Button @click="confirmDeleteCombo(combo)">
           {{ t("删除") }}
-        </button>
+        </Button>
       </TableCell>
     </template>
 
@@ -100,14 +100,14 @@ const confirmDeleteCombo = (combo: Combo) => {
             <AlertDialogCancel @click="confirmDialog = null">{{
               t("取消")
             }}</AlertDialogCancel>
-            <AlertDialogAction
+            <Button
               @click="
                 confirmDialog?.onConfirm();
                 confirmDialog = null;
               "
             >
               {{ t("确认") }}
-            </AlertDialogAction>
+            </Button>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

@@ -17,8 +17,8 @@
     <td width="50%"><img src="docs/README/recipe_details.png" alt="食谱详情" /></td>
   </tr>
   <tr>
-    <td align="center">食谱列表 — 搜索 & 标签筛选</td>
-    <td align="center">食谱详情 — 食材、步骤一览</td>
+    <td align="center">食谱列表 - 搜索 & 标签筛选</td>
+    <td align="center">食谱详情 - 食材、步骤一览</td>
   </tr>
   <tr>
     <td width="50%"><img src="docs/README/combos.png" alt="搭配列表" /></td>
@@ -26,32 +26,33 @@
   </tr>
   <tr>
     <td align="center">搭配列表</td>
-    <td align="center">搭配详情 — 多道菜组合规划</td>
+    <td align="center">搭配详情 - 多道菜组合规划</td>
   </tr>
   <tr>
     <td width="50%"><img src="docs/README/shopping_list.png" alt="购物清单" /></td>
     <td width="50%"><img src="docs/README/slideshow.png" alt="烹饪幻灯片" /></td>
   </tr>
   <tr>
-    <td align="center">购物清单 — 自动合并 & 一键复制</td>
-    <td align="center">烹饪幻灯片 — 边看边做</td>
+    <td align="center">购物清单 - 自动合并 & 一键复制</td>
+    <td align="center">烹饪幻灯片 - 边看边做</td>
   </tr>
 </table>
 
 ## 功能
 
-- **食谱管理** — 创建、编辑、删除食谱；Markdown 描述 & 步骤；支持多图上传
-- **食材 & 标签** — 统一管理食材库与标签体系，快速搜索和筛选
-- **搭配（Combo）** — 将多道菜组合为一顿饭，自动计算总烹饪时间
-- **购物清单** — 根据食谱或搭配自动生成，同名食材智能合并，支持分组/合并视图，一键复制为纯文本
-- **烹饪幻灯片** — 全屏逐步展示烹饪步骤与配图，边看边做
-- **评价系统** — 家人可对食谱打分和评论（可通过环境变量关闭）
-- **国际化 (i18n)** — 完整的国际化支持，自动检测浏览器语言
-- **深色/浅色主题** — 自动跟随系统 or 手动切换
-- **MCP Server** — 内置 [Model Context Protocol](https://modelcontextprotocol.io) 服务端，AI 助手可直接管理食谱
-- **导出为纯文本** — 购物清单可导出为文本，方便发送分享
-- **SQLite 数据库** — 零配置、单文件持久化，适合家庭场景
-- **Docker 一键部署** — 单条命令即可运行
+- **食谱管理** - 创建、编辑、删除食谱；Markdown 描述 & 步骤；支持多图上传
+- **食材 & 标签** - 统一管理食材库与标签体系，快速搜索和筛选
+- **搭配（Combo）** - 将多道菜组合为一顿饭，自动计算总烹饪时间
+- **购物清单** - 根据食谱或搭配自动生成，同名食材智能合并，支持分组/合并视图，一键复制为纯文本
+- **烹饪幻灯片** - 全屏逐步展示烹饪步骤与配图，边看边做
+- **评价系统** - 家人可对食谱打分和评论（可通过环境变量关闭）
+- **导入导出** - 可将食谱导出为 markdown 文件或通过 markdown 文件导入食谱
+- **国际化 (i18n)** - 完整的国际化支持，自动检测浏览器语言
+- **深色/浅色主题** - 自动跟随系统 or 手动切换
+- **MCP Server** - 内置 [Model Context Protocol](https://modelcontextprotocol.io) 服务端，AI 助手可直接管理食谱
+- **购物清单** - 购物清单可导出为文本，方便发送分享
+- **SQLite 数据库** - 零配置、单文件持久化，适合家庭场景
+- **Docker 一键部署** - 单条命令即可运行
 
 ## 部署
 

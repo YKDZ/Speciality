@@ -1,10 +1,19 @@
 <script setup lang="ts">
-import { Menu, Monitor, Moon, Plus, Sun, X } from "lucide-vue-next";
+import { Menu, Monitor, Moon, Plus, Sun, X, Upload } from "lucide-vue-next";
 import { usePageContext } from "vike-vue/usePageContext";
+import { navigate } from "vike/client/router";
 import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
+import { toast } from "vue-sonner";
 
 import logoUrl from "@/assets/logo.svg";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -14,6 +23,9 @@ import {
 } from "@/components/ui/select";
 import { useLanguage } from "@/composables/useLanguage";
 import { useTheme } from "@/composables/useTheme";
+
+import { buttonVariants } from "./ui/button";
+import Button from "./ui/button/Button.vue";
 
 const { t } = useI18n();
 const { preference: themePref, isDark, setTheme } = useTheme();
@@ -58,6 +70,28 @@ const isActive = (href: string) => {
   const { urlPathname } = pageContext;
   return href === "/" ? urlPathname === href : urlPathname.startsWith(href);
 };
+
+const importDialogOpen = ref(false);
+
+const handleImportFile = async (e: Event) => {
+  const target = e.target as HTMLInputElement;
+  const file = target.files?.[0];
+  if (!file) return;
+  const formData = new FormData();
+  formData.append("file", file);
+  const res = await fetch("/api/recipes/import", {
+    method: "POST",
+    body: formData,
+  });
+  if (!res.ok) {
+    toast(t("导入失败：{reason}", { reason: res.statusText }));
+    return;
+  }
+  const { recipeId } = await res.json();
+  toast(t("导入成功"));
+  importDialogOpen.value = false;
+  await navigate(`/recipe/${recipeId}`);
+};
 </script>
 
 <template>
@@ -93,16 +127,23 @@ const isActive = (href: string) => {
         </a>
       </nav>
 
-      <!-- Actions -->
-      <div class="flex items-center gap-3">
+      <!-- Actions (desktop) -->
+      <div class="hidden items-center gap-3 md:flex">
         <!-- New Recipe button -->
-        <a
-          href="/recipes/new"
-          class="hidden items-center gap-1.5 rounded bg-(--color-primary) px-3 py-1.5 text-sm font-semibold text-(--color-on-primary) transition-colors hover:bg-(--color-primary-hover) sm:inline-flex"
-        >
+        <Button variant="outline" @click="navigate('/recipe/new')">
           <Plus class="size-4" />
           {{ t("新建食谱") }}
-        </a>
+        </Button>
+
+        <!-- Import Dialog -->
+        <Button
+          variant="outline"
+          :title="t('从 Markdown 导入')"
+          @click="importDialogOpen = true"
+        >
+          <Upload class="h-4 w-4" />
+        </Button>
+
         <!-- Language select -->
         <Select
           v-if="showLanguageSwitcher"
@@ -135,26 +176,30 @@ const isActive = (href: string) => {
             </SelectItem>
           </SelectContent>
         </Select>
+
         <!-- Dark mode toggle -->
-        <button
-          class="rounded p-2 transition-colors hover:bg-(--color-surface-hover)"
+        <Button
+          variant="ghost"
+          size="icon"
           :title="themeTitle"
           @click="cycleTheme()"
         >
           <Monitor v-if="themeIcon === 'auto'" class="h-5 w-5" />
           <Sun v-else-if="themeIcon === 'sun'" class="h-5 w-5" />
           <Moon v-else class="h-5 w-5" />
-        </button>
-
-        <!-- Mobile menu toggle -->
-        <button
-          class="rounded p-2 transition-colors hover:bg-(--color-surface-hover) md:hidden"
-          @click="mobileOpen = !mobileOpen"
-        >
-          <Menu v-if="!mobileOpen" class="h-5 w-5" />
-          <X v-else class="h-5 w-5" />
-        </button>
+        </Button>
       </div>
+
+      <!-- Mobile menu toggle -->
+      <Button
+        variant="ghost"
+        class="md:hidden"
+        size="icon"
+        @click="mobileOpen = !mobileOpen"
+      >
+        <Menu v-if="!mobileOpen" class="h-5 w-5" />
+        <X v-else class="h-5 w-5" />
+      </Button>
     </div>
 
     <!-- Mobile Nav -->
@@ -176,6 +221,88 @@ const isActive = (href: string) => {
       >
         {{ link.label }}
       </a>
+
+      <div class="my-2 border-t border-(--color-border)" />
+
+      <Button
+        variant="secondary"
+        @click="
+          mobileOpen = false;
+          navigate('/recipe/new');
+        "
+      >
+        <Plus class="size-4" />
+        {{ t("新建食谱") }}
+      </Button>
+      <Button
+        variant="outline"
+        @click="
+          mobileOpen = false;
+          importDialogOpen = true;
+        "
+      >
+        <Upload class="size-4" />
+        {{ t("从 Markdown 导入") }}
+      </Button>
+
+      <div class="my-2 border-t border-(--color-border)" />
+
+      <div class="flex items-center gap-3 px-3 py-2">
+        <Select
+          v-if="showLanguageSwitcher"
+          :model-value="localePref"
+          @update:model-value="
+            (v) => {
+              if (typeof v === 'string') setLocalePref(v);
+            }
+          "
+        >
+          <SelectTrigger
+            size="sm"
+            class="w-auto gap-1.5"
+            :title="t('切换语言')"
+          >
+            <SelectValue :placeholder="selectedLocaleLabel">{{
+              selectedLocaleLabel
+            }}</SelectValue>
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="auto">
+              {{ t("跟随系统") }}
+            </SelectItem>
+            <SelectItem
+              v-for="locale in supportedLocales"
+              :key="locale.id"
+              :value="locale.id"
+            >
+              {{ locale.label }}
+            </SelectItem>
+          </SelectContent>
+        </Select>
+        <Button
+          variant="ghost"
+          size="icon"
+          :title="themeTitle"
+          @click="cycleTheme()"
+        >
+          <Monitor v-if="themeIcon === 'auto'" class="h-5 w-5" />
+          <Sun v-else-if="themeIcon === 'sun'" class="h-5 w-5" />
+          <Moon v-else class="h-5 w-5" />
+        </Button>
+      </div>
     </nav>
+
+    <!-- Import Dialog (shared) -->
+    <Dialog v-model:open="importDialogOpen">
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{{ t("从 Markdown 导入") }}</DialogTitle>
+        </DialogHeader>
+        <p class="text-sm text-(--color-on-surface-muted)">
+          {{ t("支持 .zip 或 .md 文件") }}
+        </p>
+        <Input type="file" accept=".zip,.md" @change="handleImportFile" />
+      </DialogContent>
+    </Dialog>
   </header>
 </template>

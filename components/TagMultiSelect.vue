@@ -15,6 +15,9 @@ import type { Tag } from "@/database/drizzle/schema/tags";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
 
+import Badge from "./ui/badge/Badge.vue";
+import Button from "./ui/button/Button.vue";
+
 const props = defineProps<{
   modelValue: string[];
   tags: Tag[];
@@ -70,21 +73,15 @@ const handleCreate = () => {
 <template>
   <div class="space-y-3">
     <div v-if="selectedTags.length > 0" class="flex flex-wrap gap-1.5">
-      <span
+      <Badge
+        variant="outline"
+        @click="removeTag(tag.id)"
         v-for="tag in selectedTags"
         :key="tag.id"
-        class="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary"
       >
         {{ tag.name }}
-        <button
-          type="button"
-          class="rounded-full transition-colors hover:text-destructive"
-          :title="t('移除标签')"
-          @click="removeTag(tag.id)"
-        >
-          <X class="h-3 w-3" />
-        </button>
-      </span>
+        <X />
+      </Badge>
     </div>
 
     <ComboboxRoot
@@ -110,7 +107,7 @@ const handleCreate = () => {
         class="absolute z-50 mt-1 w-full rounded border border-(--color-border) bg-popover shadow-md"
       >
         <ScrollArea
-          class="max-h-60 [&>[data-slot=scroll-area-viewport]]:max-h-[inherit]"
+          class="max-h-60 *:data-[slot=scroll-area-viewport]:max-h-[inherit]"
         >
           <div class="p-1">
             <ComboboxItem
@@ -134,13 +131,13 @@ const handleCreate = () => {
       </ComboboxContent>
     </ComboboxRoot>
 
-    <button
+    <Button
       v-if="normalizedSearch && !tagExists"
       type="button"
-      class="text-sm text-primary hover:underline"
+      variant="outline"
       @click="handleCreate"
     >
-      + {{ t("创建标签「{name}」", { name: normalizedSearch }) }}
-    </button>
+      + {{ t("创建标签 {name}", { name: normalizedSearch }) }}
+    </Button>
   </div>
 </template>

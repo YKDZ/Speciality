@@ -7,7 +7,7 @@ import { MIME_TYPES, UPLOAD_DIR } from "@/server/utils/upload-constants";
 
 const app = new Hono();
 
-// 静态文件服务 — 将 data/uploads/ 映射到 /uploads/*
+// 静态文件服务 - 将 data/uploads/ 映射到 /uploads/*
 app.get("/:filename", async (c) => {
   const filename = c.req.param("filename");
   // 防止路径遍历攻击

@@ -7,7 +7,6 @@ import type { Ingredient } from "@/database/drizzle/schema/ingredients";
 import AdminDataTable from "@/components/AdminDataTable.vue";
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -140,21 +139,21 @@ const confirmDeleteIngredient = (ing: Ingredient) => {
         </div>
       </TableCell>
       <TableCell class="text-(--color-on-surface-muted)">
-        {{ ing.description || "—" }}
+        {{ ing.description || "-" }}
       </TableCell>
       <TableCell class="text-right">
-        <button
-          class="mr-3 text-(--color-primary) hover:underline"
-          @click="openEditDialog(ing)"
-        >
-          {{ t("编辑") }}
-        </button>
-        <button
-          class="text-(--color-danger) hover:underline"
-          @click="confirmDeleteIngredient(ing)"
-        >
-          {{ t("删除") }}
-        </button>
+        <div class="flex items-center justify-end gap-2">
+          <Button variant="ghost" size="sm" @click="openEditDialog(ing)">{{
+            t("编辑")
+          }}</Button>
+          <Button
+            size="sm"
+            variant="destructive"
+            @click="confirmDeleteIngredient(ing)"
+          >
+            {{ t("删除") }}
+          </Button>
+        </div>
       </TableCell>
     </template>
 
@@ -206,14 +205,14 @@ const confirmDeleteIngredient = (ing: Ingredient) => {
             <AlertDialogCancel @click="confirmDialog = null">{{
               t("取消")
             }}</AlertDialogCancel>
-            <AlertDialogAction
+            <Button
               @click="
                 confirmDialog?.onConfirm();
                 confirmDialog = null;
               "
             >
               {{ t("确认") }}
-            </AlertDialogAction>
+            </Button>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

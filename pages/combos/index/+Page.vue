@@ -67,7 +67,7 @@ const combos = ref(data.combos);
           <CardContent class="text-sm text-muted-foreground">
             <span>{{ t("包含食谱") }}: {{ combo.recipeCount }}</span>
             <span v-if="combo.totalTime" class="ml-4">
-              {{ t("总时长") }}: {{ combo.totalTime }} {{ t("分钟") }}
+              {{ t("总时长：{time} 分钟", { time: combo.totalTime }) }}
             </span>
           </CardContent>
         </Card>

@@ -56,7 +56,6 @@ const { t } = useI18n();
 const searchQuery = ref("");
 const currentPage = ref(1);
 const selectedIds = ref<string[]>([]);
-const batchDeleteOpen = ref(false);
 
 const effectivePageSize = computed(() => props.pageSize ?? 10);
 
@@ -111,10 +110,13 @@ const toggleOne = (id: string) => {
   }
 };
 
+const clearSelection = () => {
+  selectedIds.value = [];
+};
+
 const handleBatchDelete = () => {
   emit("batchDelete", [...selectedIds.value]);
   selectedIds.value = [];
-  batchDeleteOpen.value = false;
 };
 </script>
 
@@ -131,43 +133,41 @@ const handleBatchDelete = () => {
       <p class="text-sm text-(--color-on-surface-muted)">
         {{ t("共 {count} 项", { count: props.items.length }) }}
       </p>
-      <AlertDialog
-        :open="batchDeleteOpen"
-        @update:open="(v) => (batchDeleteOpen = v)"
-      >
-        <AlertDialogTrigger as-child>
-          <Button
-            v-if="selectedIds.length > 0"
-            variant="destructive"
-            size="sm"
-            @click="batchDeleteOpen = true"
-          >
-            {{ t("删除选中 ({count})", { count: selectedIds.length }) }}
-          </Button>
-        </AlertDialogTrigger>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>{{ t("确认删除") }}</AlertDialogTitle>
-            <AlertDialogDescription>
-              {{
-                t("确认删除选中的 {count} 项？", {
-                  count: selectedIds.length,
-                })
-              }}
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel @click="batchDeleteOpen = false">
-              {{ t("取消") }}
-            </AlertDialogCancel>
-            <AlertDialogAction @click="handleBatchDelete">
-              {{ t("确认") }}
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
       <div class="ml-auto flex items-center gap-2">
-        <slot name="actions" />
+        <slot
+          name="actions"
+          :selected-ids="selectedIds"
+          :clear-selection="clearSelection"
+        />
+
+        <!-- Batch Delete Dialog -->
+        <AlertDialog v-if="selectedIds.length > 0">
+          <AlertDialogTrigger as-child>
+            <Button variant="destructive" size="sm">
+              {{ t("删除选中 ({count})", { count: selectedIds.length }) }}
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>{{ t("确认删除") }}</AlertDialogTitle>
+              <AlertDialogDescription>
+                {{
+                  t("确认删除选中的 {count} 项？", {
+                    count: selectedIds.length,
+                  })
+                }}
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>
+                {{ t("取消") }}
+              </AlertDialogCancel>
+              <AlertDialogAction @click="handleBatchDelete">
+                {{ t("确认") }}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </div>
 

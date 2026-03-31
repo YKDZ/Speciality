@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ChevronLeft, Clock } from "lucide-vue-next";
+import { ChevronLeft, Clock, EllipsisVertical } from "lucide-vue-next";
 import { useData } from "vike-vue/useData";
+import { navigate } from "vike/client/router";
 import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { toast } from "vue-sonner";
@@ -9,12 +10,30 @@ import MarkdownRenderer from "@/components/MarkdownRenderer.vue";
 import ReviewSection from "@/components/ReviewSection.vue";
 import ShoppingList from "@/components/ShoppingList.vue";
 import SlideshowView from "@/components/SlideshowView.vue";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 import type { Data } from "./+data";
 
@@ -30,6 +49,23 @@ const startSlideshow = () => {
   }
 
   slideshowMode.value = true;
+};
+
+const handleExport = async () => {
+  const res = await fetch(`/api/recipes/${recipe.id}/export`);
+  if (!res.ok) {
+    toast(t("导出失败"));
+    return;
+  }
+  const blob = await res.blob();
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  const contentType = res.headers.get("Content-Type") ?? "";
+  const ext = contentType.includes("text/markdown") ? ".md" : ".zip";
+  a.download = `${recipe.name}${ext}`;
+  a.click();
+  URL.revokeObjectURL(url);
 };
 
 const shoppingItems = computed(() =>
@@ -58,38 +94,77 @@ const shoppingItems = computed(() =>
     <div v-else>
       <!-- Back & Actions -->
       <div class="mb-6 flex items-center justify-between">
-        <a
-          href="/recipes"
-          class="inline-flex items-center gap-1 text-sm text-(--color-on-surface-muted) hover:text-(--color-primary)"
-        >
+        <Button variant="ghost" @click="navigate('/')">
           <ChevronLeft class="h-4 w-4" />
           {{ t("返回") }}
-        </a>
+        </Button>
         <div class="flex items-center gap-2">
-          <button
-            class="inline-flex items-center gap-1.5 rounded border border-(--color-border) px-3 py-1.5 text-sm transition-colors"
-            :class="
-              steps.length > 0
-                ? 'hover:bg-(--color-surface-hover)'
-                : 'cursor-not-allowed opacity-50'
-            "
+          <!-- 宽屏：所有按钮平铺（md 及以上显示） -->
+          <Button
+            class="hidden md:inline-flex"
+            variant="outline"
             @click="startSlideshow"
           >
             {{ t("幻灯片模式") }}
-          </button>
-          <button
+          </Button>
+          <Button
             v-if="ingredients.length > 0"
-            class="inline-flex items-center gap-1.5 rounded border border-(--color-border) px-3 py-1.5 text-sm transition-colors hover:bg-(--color-surface-hover)"
+            variant="outline"
+            class="hidden md:inline-flex"
             @click="shoppingListOpen = true"
           >
             {{ t("采购表") }}
-          </button>
-          <a
-            :href="`/recipes/${recipe.id}/edit`"
-            class="inline-flex items-center gap-1.5 rounded bg-(--color-primary) px-3 py-1.5 text-sm font-semibold text-(--color-on-primary) transition-colors hover:bg-(--color-primary-hover)"
+          </Button>
+          <Button
+            variant="outline"
+            class="hidden md:inline-flex"
+            @click="handleExport"
+          >
+            {{ t("导出 Markdown") }}
+          </Button>
+
+          <!-- 窄屏：Drawer 收纳次要操作（md 以下显示） -->
+          <Drawer>
+            <DrawerTrigger as-child>
+              <Button variant="outline" class="inline-flex md:hidden">
+                <EllipsisVertical class="h-4 w-4" />
+              </Button>
+            </DrawerTrigger>
+            <DrawerContent>
+              <DrawerHeader>
+                <DrawerTitle>{{ t("操作") }}</DrawerTitle>
+              </DrawerHeader>
+              <div class="flex flex-col gap-2 px-4 pb-6">
+                <DrawerClose as-child>
+                  <Button
+                    variant="secondary"
+                    :disabled="steps.length === 0"
+                    @click="startSlideshow"
+                  >
+                    {{ t("幻灯片模式") }}
+                  </Button>
+                </DrawerClose>
+                <DrawerClose v-if="ingredients.length > 0" as-child>
+                  <Button variant="secondary" @click="shoppingListOpen = true">
+                    {{ t("采购表") }}
+                  </Button>
+                </DrawerClose>
+                <DrawerClose as-child>
+                  <Button variant="secondary" @click="handleExport">
+                    {{ t("导出 Markdown") }}
+                  </Button>
+                </DrawerClose>
+              </div>
+            </DrawerContent>
+          </Drawer>
+
+          <!-- 主操作：始终可见 -->
+          <Button
+            variant="outline"
+            @click="navigate(`/recipe/${recipe.id}/edit`)"
           >
             {{ t("编辑") }}
-          </a>
+          </Button>
         </div>
       </div>
 
@@ -98,7 +173,7 @@ const shoppingItems = computed(() =>
         <!-- Cover Image -->
         <div
           v-if="recipe.coverImage"
-          class="relative mb-6 aspect-video max-h-[400px] overflow-hidden rounded bg-muted"
+          class="relative mb-6 aspect-video max-h-100 overflow-hidden rounded bg-muted"
         >
           <img
             :src="recipe.coverImage"
@@ -128,20 +203,13 @@ const shoppingItems = computed(() =>
 
         <!-- Meta row -->
         <div class="mt-4 flex flex-wrap items-center gap-3">
-          <span
-            v-if="recipe.estimatedTime"
-            class="inline-flex items-center gap-1 rounded border border-(--color-border) px-2.5 py-1 text-xs"
-          >
-            <Clock class="h-3.5 w-3.5" />
-            {{ recipe.estimatedTime }} {{ t("分钟") }}
-          </span>
-          <span
-            v-for="tag in tags"
-            :key="tag.tagId"
-            class="rounded-full bg-(--color-primary-light) px-2.5 py-1 text-xs text-(--color-primary)"
-          >
+          <Badge variant="outline" v-if="recipe.estimatedTime">
+            <Clock />
+            {{ t("{time} 分钟", { time: recipe.estimatedTime }) }}
+          </Badge>
+          <Badge variant="secondary" v-for="tag in tags" :key="tag.tagId">
             {{ tag.tagName }}
-          </span>
+          </Badge>
         </div>
       </div>
 
@@ -149,38 +217,32 @@ const shoppingItems = computed(() =>
       <section v-if="ingredients.length > 0" class="mb-8">
         <h2 class="mb-3 text-xl font-semibold">{{ t("食材列表") }}</h2>
         <div class="overflow-x-auto">
-          <table class="w-full text-sm">
-            <thead>
-              <tr
-                class="border-b border-(--color-border) text-left text-(--color-on-surface-muted)"
-              >
-                <th class="pb-2 font-medium">{{ t("名称") }}</th>
-                <th class="pb-2 font-medium">{{ t("用量") }}</th>
-                <th class="pb-2 font-medium">{{ t("备注") }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="item in ingredients"
-                :key="item.id"
-                class="border-b border-(--color-border)"
-              >
-                <td class="py-2">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>{{ t("名称") }}</TableHead>
+                <TableHead>{{ t("用量") }}</TableHead>
+                <TableHead>{{ t("备注") }}</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              <TableRow v-for="item in ingredients" :key="item.id">
+                <TableCell>
                   {{ item.ingredientName }}
-                </td>
-                <td class="py-2">
+                </TableCell>
+                <TableCell>
                   {{
                     item.quantity || item.unit
                       ? `${item.quantity ?? ""} ${item.unit ?? ""}`
-                      : "—"
+                      : "-"
                   }}
-                </td>
-                <td class="py-2 text-(--color-on-surface-muted)">
-                  {{ item.note || "—" }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                </TableCell>
+                <TableCell class="text-(--color-on-surface-muted)">
+                  {{ item.note || "-" }}
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
         </div>
       </section>
 
@@ -224,7 +286,7 @@ const shoppingItems = computed(() =>
         </DialogHeader>
         <ShoppingList
           :items="shoppingItems"
-          :title="recipe.name + ' — ' + t('采购表')"
+          :title="t('{name} 的采购表', { name: recipe.name })"
         />
       </DialogContent>
     </Dialog>

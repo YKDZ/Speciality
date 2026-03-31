@@ -191,7 +191,7 @@ const handleSubmit = () => {
 
     <div class="space-y-2">
       <Label for="combo-time">
-        {{ t("总时长") }}（{{ t("分钟") }}）
+        {{ t("总时长（分钟）") }}
         <span class="ml-1 text-xs text-muted-foreground">
           （{{ t("留空则自动计算") }}）
         </span>
@@ -215,10 +215,9 @@ const handleSubmit = () => {
         />
       </div>
       <div class="flex items-center gap-2">
-        <input
+        <Input
           type="file"
           accept="image/jpeg,image/png,image/gif,image/webp,image/svg+xml"
-          class="block w-full cursor-pointer text-sm text-(--color-on-surface-muted) file:mr-3 file:rounded-md file:border-0 file:bg-primary file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-primary-foreground hover:file:bg-primary/90"
           @change="uploadCoverImage"
         />
         <Button

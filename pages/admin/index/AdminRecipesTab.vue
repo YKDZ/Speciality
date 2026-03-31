@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { navigate } from "vike/client/router";
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 
@@ -7,7 +8,6 @@ import type { Recipe } from "@/database/drizzle/schema/recipes";
 import AdminDataTable from "@/components/AdminDataTable.vue";
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -15,6 +15,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 import { TableCell, TableHead } from "@/components/ui/table";
 
 import { onDeleteRecipe } from "./AdminRecipesTab.telefunc";
@@ -45,6 +46,33 @@ const confirmDeleteRecipe = (recipe: Recipe) => {
     },
   };
 };
+
+const handleExport = async (ids: string[]) => {
+  let res: Response;
+  if (ids.length === 1) {
+    res = await fetch(`/api/recipes/${ids[0]}/export`);
+  } else {
+    res = await fetch("/api/recipes/export-batch", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ids }),
+    });
+  }
+  if (!res.ok) return;
+  const blob = await res.blob();
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  const contentType = res.headers.get("Content-Type") ?? "";
+  if (ids.length === 1) {
+    const ext = contentType.includes("text/markdown") ? ".md" : ".zip";
+    a.download = `${recipeList.value.find((r) => r.id === ids[0])?.name ?? "recipe"}${ext}`;
+  } else {
+    a.download = "recipes-export.zip";
+  }
+  a.click();
+  URL.revokeObjectURL(url);
+};
 </script>
 
 <template>
@@ -59,32 +87,48 @@ const confirmDeleteRecipe = (recipe: Recipe) => {
       <TableHead class="text-right">{{ t("操作") }}</TableHead>
     </template>
 
+    <template #actions="{ selectedIds }">
+      <Button
+        v-if="selectedIds.length > 0"
+        variant="outline"
+        size="sm"
+        @click="handleExport(selectedIds)"
+      >
+        {{ t("导出选中 ({count})", { count: selectedIds.length }) }}
+      </Button>
+    </template>
+
     <template #row="{ item: recipe }">
       <TableCell>
-        <a :href="`/recipes/${recipe.id}`" class="hover:underline">{{
+        <a :href="`/recipe/${recipe.id}`" class="hover:underline">{{
           recipe.name
         }}</a>
       </TableCell>
       <TableCell class="text-(--color-on-surface-muted)">
         {{
-          recipe.estimatedTime ? `${recipe.estimatedTime} ${t("分钟")}` : "—"
+          recipe.estimatedTime
+            ? t("{time} 分钟", { time: recipe.estimatedTime })
+            : "-"
         }}
       </TableCell>
       <TableCell class="text-right">
-        <a
-          :href="`/recipes/${recipe.id}/edit`"
-          class="mr-3 text-(--color-primary) hover:underline"
-          >{{ t("编辑") }}</a
-        >
-        <button
-          class="text-(--color-danger) hover:underline"
-          @click="confirmDeleteRecipe(recipe)"
-        >
-          {{ t("删除") }}
-        </button>
+        <div class="flex items-center justify-end gap-2">
+          <Button
+            variant="ghost"
+            size="sm"
+            @click="navigate(`/recipe/${recipe.id}/edit`)"
+            >{{ t("编辑") }}</Button
+          >
+          <Button
+            size="sm"
+            variant="destructive"
+            @click="confirmDeleteRecipe(recipe)"
+          >
+            {{ t("删除") }}
+          </Button>
+        </div>
       </TableCell>
     </template>
-
     <template #dialogs>
       <!-- Confirm Delete Dialog -->
       <AlertDialog
@@ -102,14 +146,14 @@ const confirmDeleteRecipe = (recipe: Recipe) => {
             <AlertDialogCancel @click="confirmDialog = null">{{
               t("取消")
             }}</AlertDialogCancel>
-            <AlertDialogAction
+            <Button
               @click="
                 confirmDialog?.onConfirm();
                 confirmDialog = null;
               "
             >
               {{ t("确认") }}
-            </AlertDialogAction>
+            </Button>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

@@ -43,7 +43,7 @@ const onSave = async (formData: {
     await onUpsertRecipeIngredients(recipe.id, formData.ingredients);
   }
 
-  await navigate(`/recipes/${recipe.id}`);
+  await navigate(`/recipe/${recipe.id}`);
 };
 </script>
 
@@ -51,10 +51,7 @@ const onSave = async (formData: {
   <div>
     <div class="mb-6 flex items-center justify-between">
       <h1 class="text-3xl font-bold tracking-tight">{{ t("新建食谱") }}</h1>
-      <a
-        href="/recipes"
-        class="text-sm text-on-surface-muted hover:text-primary"
-      >
+      <a href="/" class="text-sm text-on-surface-muted hover:text-primary">
         {{ t("取消") }}
       </a>
     </div>

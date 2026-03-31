@@ -10,7 +10,7 @@ const getCookieLocale = (cookieHeader: string): string | null => {
   const match = cookieHeader.match(/(?:^|;\s*)locale=([a-zA-Z-]+)/);
   if (!match) return null;
   const value = match[1];
-  // "auto" means the user wants browser-detected language — skip cookie resolution
+  // "auto" means the user wants browser-detected language - skip cookie resolution
   if (value === "auto") return null;
   return SUPPORTED_LOCALE_IDS.includes(value) ? value : null;
 };

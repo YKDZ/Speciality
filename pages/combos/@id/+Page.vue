@@ -99,7 +99,7 @@ const shoppingItems = computed<ShoppingItem[]>(() =>
       class="mb-4 flex flex-wrap items-center gap-4 text-sm text-muted-foreground"
     >
       <span v-if="data.totalTime">
-        {{ t("总时长") }}: {{ data.totalTime }} {{ t("分钟") }}
+        {{ t("总时长：{time} 分钟", { time: data.totalTime }) }}
         <span v-if="!data.combo.estimatedTime" class="text-xs opacity-70"
           >({{ t("自动计算") }})</span
         >

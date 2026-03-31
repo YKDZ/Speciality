@@ -5,7 +5,7 @@ type ColorScheme = "light" | "dark";
 const getCookieColorScheme = (cookieHeader: string) => {
   const match = cookieHeader.match(/(?:^|;\s*)theme=(light|dark|auto)/);
   const value = match?.[1];
-  // "auto" means the user wants system-detected theme — skip cookie resolution
+  // "auto" means the user wants system-detected theme - skip cookie resolution
   if (value === "auto") return null;
   return value === "dark" || value === "light" ? value : null;
 };

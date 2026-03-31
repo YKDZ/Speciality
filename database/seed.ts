@@ -1,5 +1,5 @@
 /**
- * 种子脚本 — 向数据库填充测试食谱数据（中餐 + 法餐）
+ * 种子脚本 - 向数据库填充测试食谱数据（中餐 + 法餐）
  *
  * 两种调用方式：
  *  1. 直接运行：npx tsx database/seed.ts
@@ -158,12 +158,12 @@ interface RecipeSeed {
 
 const recipeSeedData = [
   // ═══════════════════════════════════════════
-  // Chinese Cuisine — all content in English
+  // Chinese Cuisine - all content in English
   // ═══════════════════════════════════════════
   {
     name: "Red Braised Pork Belly",
     description:
-      "A classic home-style dish — rich, glossy, and melt-in-your-mouth tender. Pork belly is blanched, caramelized with rock sugar, and slow-braised to perfection.",
+      "A classic home-style dish - rich, glossy, and melt-in-your-mouth tender. Pork belly is blanched, caramelized with rock sugar, and slow-braised to perfection.",
     coverImage: "/seed-images/seed-red-braised-pork-belly.jpg",
     estimatedTime: 90,
     tags: ["Home-Style", "Shandong"],
@@ -218,7 +218,7 @@ const recipeSeedData = [
       {
         author: "Xiao Ming",
         rating: 5,
-        comment: "Beautiful glaze, melts in your mouth — absolutely delicious!",
+        comment: "Beautiful glaze, melts in your mouth - absolutely delicious!",
       },
       {
         author: "Foodie Ah Hua",
@@ -236,7 +236,7 @@ const recipeSeedData = [
   {
     name: "Mapo Tofu",
     description:
-      "A famous Sichuan dish — numbing, spicy, and deeply savory. Silken tofu is simmered in a bold sauce of doubanjiang and Sichuan peppercorn.",
+      "A famous Sichuan dish - numbing, spicy, and deeply savory. Silken tofu is simmered in a bold sauce of doubanjiang and Sichuan peppercorn.",
     coverImage: "/seed-images/seed-mapo-tofu.jpg",
     estimatedTime: 25,
     tags: ["Sichuan", "Quick & Easy"],
@@ -296,7 +296,7 @@ const recipeSeedData = [
       {
         author: "Li the Sichuan Fan",
         rating: 5,
-        comment: "Numbing and spicy — incredibly authentic!",
+        comment: "Numbing and spicy - incredibly authentic!",
       },
       {
         author: "Tofu Lover",
@@ -309,7 +309,7 @@ const recipeSeedData = [
   {
     name: "Tomato and Egg Stir-Fry",
     description:
-      "One of the simplest home-cooked dishes — tangy, slightly sweet, and loved by all ages. Mastering the heat is the key.",
+      "One of the simplest home-cooked dishes - tangy, slightly sweet, and loved by all ages. Mastering the heat is the key.",
     coverImage: "/seed-images/seed-tomato-egg-stir-fry.jpg",
     estimatedTime: 15,
     tags: ["Home-Style", "Quick & Easy"],
@@ -341,7 +341,7 @@ const recipeSeedData = [
       {
         author: "Student Xiao Wang",
         rating: 5,
-        comment: "Simple and delicious — the very first dish I learned!",
+        comment: "Simple and delicious - the very first dish I learned!",
       },
       {
         author: "Mom",
@@ -356,7 +356,7 @@ const recipeSeedData = [
       {
         author: "Kitchen Newbie",
         rating: 5,
-        comment: "Nailed it on my first try — so happy!",
+        comment: "Nailed it on my first try - so happy!",
       },
     ],
     daysAgo: 10,
@@ -364,7 +364,7 @@ const recipeSeedData = [
   {
     name: "Kung Pao Chicken",
     description:
-      "A Sichuan classic — tender chicken, crunchy peanuts, and a sweet-sour-spicy sauce that keeps you coming back for more.",
+      "A Sichuan classic - tender chicken, crunchy peanuts, and a sweet-sour-spicy sauce that keeps you coming back for more.",
     coverImage: "/seed-images/seed-kung-pao-chicken.jpg",
     estimatedTime: 30,
     tags: ["Sichuan", "Home-Style"],
@@ -417,7 +417,7 @@ const recipeSeedData = [
       {
         author: "Foodie Chen",
         rating: 5,
-        comment: "Tender chicken and crispy peanuts — so fragrant!",
+        comment: "Tender chicken and crispy peanuts - so fragrant!",
       },
       {
         author: "Spice Lover",
@@ -430,7 +430,7 @@ const recipeSeedData = [
   {
     name: "Hot and Sour Shredded Potatoes",
     description:
-      "Crisp, tangy, and slightly spicy — a beloved everyday dish that is as quick to make as it is satisfying to eat.",
+      "Crisp, tangy, and slightly spicy - a beloved everyday dish that is as quick to make as it is satisfying to eat.",
     estimatedTime: 20,
     tags: ["Home-Style", "Quick & Easy"],
     coverImage: "/seed-images/seed-hot-sour-shredded-potatoes.jpg",
@@ -464,7 +464,7 @@ const recipeSeedData = [
       {
         author: "Rice King",
         rating: 5,
-        comment: "Super crispy and addictive — perfect with steamed rice.",
+        comment: "Super crispy and addictive - perfect with steamed rice.",
       },
       {
         author: "Veggie Fan Xiao Ya",
@@ -522,7 +522,7 @@ const recipeSeedData = [
       {
         author: "Busy Mom",
         rating: 5,
-        comment: "My kids' absolute favorite — they always ask for seconds.",
+        comment: "My kids' absolute favorite - they always ask for seconds.",
       },
       {
         author: "Sweet Tooth",
@@ -583,7 +583,7 @@ const recipeSeedData = [
   {
     name: "Red Braised Beef Brisket",
     description:
-      "A hearty braise with fork-tender beef brisket, potatoes, and carrots in a rich, savory sauce — pure comfort food.",
+      "A hearty braise with fork-tender beef brisket, potatoes, and carrots in a rich, savory sauce - pure comfort food.",
     estimatedTime: 120,
     coverImage: "/seed-images/seed-red-braised-beef-brisket.jpg",
     tags: ["Home-Style", "Soup & Stew"],
@@ -635,7 +635,7 @@ const recipeSeedData = [
       {
         author: "Beef Lover",
         rating: 5,
-        comment: "Meltingly tender — the sauce over rice is heavenly.",
+        comment: "Meltingly tender - the sauce over rice is heavenly.",
       },
       {
         author: "Winter Essential",
@@ -704,7 +704,7 @@ const recipeSeedData = [
         author: "Fish-Free Fan",
         rating: 5,
         comment:
-          "The sauce is incredible — sour, sweet, and spicy all at once.",
+          "The sauce is incredible - sour, sweet, and spicy all at once.",
       },
       {
         author: "Rice Destroyer",
@@ -715,7 +715,7 @@ const recipeSeedData = [
         author: "Cooking Student",
         rating: 4,
         comment:
-          "Getting the sauce ratio right is key — worth a few practice runs.",
+          "Getting the sauce ratio right is key - worth a few practice runs.",
       },
     ],
     daysAgo: 14,
@@ -753,7 +753,7 @@ const recipeSeedData = [
       {
         author: "Late Night Kitchen",
         rating: 5,
-        comment: "Simple happiness — the best late-night comfort food.",
+        comment: "Simple happiness - the best late-night comfort food.",
       },
       {
         author: "Lazy Chef",
@@ -766,7 +766,7 @@ const recipeSeedData = [
   {
     name: "Shrimp with Silky Scrambled Eggs",
     description:
-      "A Cantonese classic — bouncy shrimp enveloped in soft, custard-like scrambled eggs. Incredibly delicate and refined.",
+      "A Cantonese classic - bouncy shrimp enveloped in soft, custard-like scrambled eggs. Incredibly delicate and refined.",
     coverImage: "/seed-images/seed-shrimp-scrambled-eggs.jpg",
     estimatedTime: 15,
     tags: ["Cantonese", "Quick & Easy"],
@@ -799,12 +799,12 @@ const recipeSeedData = [
       {
         author: "Cantonese Food Fan",
         rating: 5,
-        comment: "Bouncy shrimp, silky eggs — sheer perfection.",
+        comment: "Bouncy shrimp, silky eggs - sheer perfection.",
       },
       {
         author: "Breakfast Lover",
         rating: 4,
-        comment: "Wonderful for breakfast — nutritious and quick.",
+        comment: "Wonderful for breakfast - nutritious and quick.",
       },
     ],
     daysAgo: 7,
@@ -812,7 +812,7 @@ const recipeSeedData = [
   {
     name: "Steamed Fish Head with Chopped Chili",
     description:
-      "A signature Hunan dish — fresh fish head topped with fiery chopped chilies and steamed to preserve its natural sweetness.",
+      "A signature Hunan dish - fresh fish head topped with fiery chopped chilies and steamed to preserve its natural sweetness.",
     coverImage: "/seed-images/seed-steamed-fish-head-chili.jpg",
     estimatedTime: 40,
     tags: ["Hunan"],
@@ -854,7 +854,7 @@ const recipeSeedData = [
       {
         author: "Hunan Native",
         rating: 5,
-        comment: "Tastes like home — fiery and satisfying!",
+        comment: "Tastes like home - fiery and satisfying!",
       },
       {
         author: "Seafood Lover",
@@ -866,7 +866,7 @@ const recipeSeedData = [
   },
 
   // ═══════════════════════════════════════════
-  // 法式料理 — 所有内容使用中文
+  // 法式料理 - 所有内容使用中文
   // ═══════════════════════════════════════════
   {
     name: "红酒炖鸡",
@@ -935,7 +935,7 @@ const recipeSeedData = [
       {
         author: "Julia",
         rating: 5,
-        comment: "这才是正宗的法式乡村风味——浓郁、质朴又暖心。",
+        comment: "这才是正宗的法式乡村风味--浓郁、质朴又暖心。",
       },
       {
         author: "Marc",
@@ -948,7 +948,7 @@ const recipeSeedData = [
   {
     name: "法式洋葱汤",
     description:
-      "深度焦糖化的洋葱汤，配上烤脆的法棍面包片和融化的格吕耶尔奶酪。秘诀就是耐心——洋葱的焦糖化需要足够时间。",
+      "深度焦糖化的洋葱汤，配上烤脆的法棍面包片和融化的格吕耶尔奶酪。秘诀就是耐心--洋葱的焦糖化需要足够时间。",
     coverImage: "/seed-images/seed-french-onion-soup.jpg",
     estimatedTime: 90,
     tags: ["法式料理", "法式浓汤", "小酒馆风味"],
@@ -1064,7 +1064,7 @@ const recipeSeedData = [
   {
     name: "勃艮第红酒炖牛肉",
     description:
-      "勃艮第传奇名菜——牛肉在红酒中与胡萝卜、珍珠洋葱和蘑菇一同慢炖数小时。耐心烹饪，将平凡的牛肩肉化为非凡。",
+      "勃艮第传奇名菜--牛肉在红酒中与胡萝卜、珍珠洋葱和蘑菇一同慢炖数小时。耐心烹饪，将平凡的牛肩肉化为非凡。",
     coverImage: "/seed-images/seed-beef-bourguignon.jpg",
     estimatedTime: 180,
     tags: ["法式料理", "慢炖菜"],
@@ -1142,7 +1142,7 @@ const recipeSeedData = [
   {
     name: "焦糖布蕾",
     description:
-      "法式经典甜品——覆盖着一层完美焦脆焦糖壳的丝滑香草布丁。金色外壳之下是如天鹅绒般细腻的蛋奶冻。",
+      "法式经典甜品--覆盖着一层完美焦脆焦糖壳的丝滑香草布丁。金色外壳之下是如天鹅绒般细腻的蛋奶冻。",
     coverImage: "/seed-images/seed-creme-brulee.jpg",
     estimatedTime: 60,
     tags: ["法式料理", "法式甜品"],

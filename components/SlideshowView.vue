@@ -7,6 +7,7 @@ import { useI18n } from "vue-i18n";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 import MarkdownRenderer from "./MarkdownRenderer.vue";
+import Button from "./ui/button/Button.vue";
 
 const { t } = useI18n();
 
@@ -76,20 +77,18 @@ onKeyStroke("Escape", () => emit("exit"));
             })
           }}
         </span>
-        <button
-          class="rounded border border-(--color-border) p-1.5 text-sm transition-colors hover:bg-(--color-surface-hover)"
+        <Button
+          variant="ghost"
+          size="icon"
           :title="isFullscreen ? t('退出全屏') : t('全屏')"
           @click="toggleFullscreen"
         >
           <Maximize v-if="!isFullscreen" class="h-4 w-4" />
           <Minimize v-else class="h-4 w-4" />
-        </button>
-        <button
-          class="rounded border border-(--color-border) px-3 py-1.5 text-sm transition-colors hover:bg-(--color-surface-hover)"
-          @click="$emit('exit')"
-        >
+        </Button>
+        <Button variant="outline" @click="$emit('exit')">
           {{ t("退出幻灯片") }}
-        </button>
+        </Button>
       </div>
     </div>
 
@@ -126,22 +125,18 @@ onKeyStroke("Escape", () => emit("exit"));
     <div
       class="flex items-center justify-between border-t border-(--color-border) px-4 py-3"
     >
-      <button
-        class="inline-flex items-center gap-1.5 rounded border border-(--color-border) px-4 py-2 text-sm transition-colors hover:bg-(--color-surface-hover) disabled:cursor-not-allowed disabled:opacity-40"
-        :disabled="currentStep === 0"
-        @click="prevStep"
-      >
+      <Button variant="outline" :disabled="currentStep === 0" @click="prevStep">
         <ChevronLeft class="h-4 w-4" />
         {{ t("上一步") }}
-      </button>
-      <button
-        class="inline-flex items-center gap-1.5 rounded bg-(--color-primary) px-4 py-2 text-sm font-semibold text-(--color-on-primary) transition-colors hover:bg-(--color-primary-hover) disabled:cursor-not-allowed disabled:opacity-40"
+      </Button>
+      <Button
+        variant="outline"
         :disabled="currentStep === steps.length - 1"
         @click="nextStep"
       >
         {{ t("下一步") }}
         <ChevronRight class="h-4 w-4" />
-      </button>
+      </Button>
     </div>
   </div>
 </template>

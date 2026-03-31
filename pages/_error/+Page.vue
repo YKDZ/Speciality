@@ -6,7 +6,7 @@ const { t } = useI18n();
 const pageContext = usePageContext();
 let { is404, abortReason } = pageContext;
 if (!abortReason) {
-  abortReason = is404 ? t("— 页面不存在") : t("发生了错误");
+  abortReason = is404 ? t("- 页面不存在") : t("发生了错误");
 }
 const heading = is404 ? "404" : "500";
 </script>

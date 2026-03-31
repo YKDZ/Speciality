@@ -7,7 +7,6 @@ import type { Tag } from "@/database/drizzle/schema/tags";
 import AdminDataTable from "@/components/AdminDataTable.vue";
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -116,18 +115,12 @@ const confirmDeleteTag = (tag: Tag) => {
         </span>
       </TableCell>
       <TableCell class="text-right">
-        <button
-          class="mr-3 text-(--color-primary) hover:underline"
-          @click="openEditDialog(tag)"
-        >
+        <Button variant="outline" @click="openEditDialog(tag)">
           {{ t("编辑") }}
-        </button>
-        <button
-          class="text-(--color-danger) hover:underline"
-          @click="confirmDeleteTag(tag)"
-        >
+        </Button>
+        <Button variant="destructive" @click="confirmDeleteTag(tag)">
           {{ t("删除") }}
-        </button>
+        </Button>
       </TableCell>
     </template>
 
@@ -169,14 +162,14 @@ const confirmDeleteTag = (tag: Tag) => {
             <AlertDialogCancel @click="confirmDialog = null">{{
               t("取消")
             }}</AlertDialogCancel>
-            <AlertDialogAction
+            <Button
               @click="
                 confirmDialog?.onConfirm();
                 confirmDialog = null;
               "
             >
               {{ t("确认") }}
-            </AlertDialogAction>
+            </Button>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

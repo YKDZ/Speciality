@@ -17,7 +17,7 @@ export type AppI18n = I18n<
   false
 >;
 
-/** Client-side singleton — survives across client-side navigations. */
+/** Client-side singleton - survives across client-side navigations. */
 let clientI18n: AppI18n | null = null;
 
 /** Return the client-side i18n singleton (null on server / before creation). */

@@ -1,16 +1,14 @@
 <script setup lang="ts">
-import {
-  breakpointsTailwind,
-  useDebounceFn,
-  useBreakpoints,
-  useIntersectionObserver,
-} from "@vueuse/core";
+import { useDebounceFn, useIntersectionObserver } from "@vueuse/core";
 import { Search } from "lucide-vue-next";
 import { useData } from "vike-vue/useData";
-import { computed, ref, watch } from "vue";
+import { navigate } from "vike/client/router";
+import { ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 
 import RecipeCard from "@/components/RecipeCard.vue";
+import Badge from "@/components/ui/badge/Badge.vue";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -36,27 +34,14 @@ const allRecipes = ref<EnrichedRecipe[]>([...initialRecipes]);
 const isLoading = ref(false);
 const searchTotal = ref(total);
 
-const breakpoints = useBreakpoints(breakpointsTailwind, { ssrWidth: 1024 });
-const sm = breakpoints.greaterOrEqual("sm");
-const lg = breakpoints.greaterOrEqual("lg");
-const columnCount = computed(() => (lg.value ? 3 : sm.value ? 2 : 1));
-
-const columns = computed(() => {
-  const cols: EnrichedRecipe[][] = Array.from(
-    { length: columnCount.value },
-    () => [],
-  );
-  for (let i = 0; i < allRecipes.value.length; i += 1) {
-    cols[i % columnCount.value].push(allRecipes.value[i]);
-  }
-  return cols;
-});
-
 const searchQuery = ref("");
 const selectedTags = ref(new Set<string>());
 const sentinelRef = ref<HTMLElement | null>(null);
 
-const hasMore = computed(() => allRecipes.value.length < searchTotal.value);
+const hasMore = ref(allRecipes.value.length < searchTotal.value);
+watch([allRecipes, searchTotal], () => {
+  hasMore.value = allRecipes.value.length < searchTotal.value;
+});
 
 const toggleTag = (tagId: string) => {
   const next = new Set(selectedTags.value);
@@ -152,70 +137,79 @@ useIntersectionObserver(sentinelRef, ([entry]) => {
 
 <template>
   <div>
-    <!-- 搜索栏 + 标签过滤 -->
-    <div class="mb-6 flex flex-wrap items-center gap-3">
-      <div class="relative flex-1 sm:w-64 sm:flex-initial">
-        <Input
-          v-model="searchQuery"
-          type="text"
-          :placeholder="t('搜索食谱...')"
-          class="pl-9"
-          @input="onSearchInput"
-        />
-        <Search
-          class="absolute top-2.5 left-2.5 h-4 w-4 text-(--color-on-surface-muted)"
-        />
+    <!-- Search & Actions Bar -->
+    <div
+      class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+    >
+      <h1 class="text-3xl font-bold tracking-tight">{{ t("食谱") }}</h1>
+      <div class="flex items-center gap-3">
+        <div class="relative flex-1 sm:w-64 sm:flex-initial">
+          <Input
+            v-model="searchQuery"
+            type="text"
+            :placeholder="t('搜索食谱...')"
+            class="pl-9"
+            @input="onSearchInput"
+          />
+          <Search
+            class="absolute top-2.5 left-2.5 h-4 w-4 text-(--color-on-surface-muted)"
+          />
+        </div>
       </div>
     </div>
 
     <!-- Tag filters -->
     <div v-if="allTags.length > 0" class="mb-6 flex flex-wrap gap-2">
-      <button
+      <Badge
         v-for="tag in allTags"
         :key="tag.id"
-        class="rounded-full border px-3 py-1 text-xs font-medium transition-colors"
+        variant="outline"
+        class="cursor-pointer select-none"
         :class="
           selectedTags.has(tag.id)
             ? 'border-(--color-primary) bg-(--color-primary-light) text-(--color-primary)'
-            : 'border-(--color-border) text-(--color-on-surface-muted) hover:border-(--color-primary) hover:text-(--color-primary)'
+            : ''
         "
         @click="toggleTag(tag.id)"
       >
         {{ tag.name }}
-      </button>
+      </Badge>
     </div>
 
     <!-- Skeleton placeholders while loading -->
-    <div v-if="isLoading && allRecipes.length === 0" class="flex gap-4">
+    <div
+      v-if="isLoading && allRecipes.length === 0"
+      class="columns-1 gap-4 sm:columns-2 lg:columns-3"
+    >
       <div
-        v-for="colIdx in columnCount"
-        :key="colIdx"
-        class="flex flex-1 flex-col gap-4"
+        v-for="i in 6"
+        :key="i"
+        class="mb-4 break-inside-avoid overflow-hidden rounded-lg border"
       >
-        <div v-for="i in 2" :key="i" class="overflow-hidden rounded-lg border">
-          <Skeleton class="aspect-video w-full" />
-          <div class="p-4">
-            <Skeleton class="h-5 w-3/4" />
-            <Skeleton class="mt-2 h-4 w-full" />
-            <Skeleton class="mt-1 h-4 w-2/3" />
-            <div class="mt-3 flex gap-2">
-              <Skeleton class="h-5 w-16 rounded-full" />
-              <Skeleton class="h-5 w-12 rounded-full" />
-            </div>
+        <Skeleton class="aspect-video w-full" />
+        <div class="p-4">
+          <Skeleton class="h-5 w-3/4" />
+          <Skeleton class="mt-2 h-4 w-full" />
+          <Skeleton class="mt-1 h-4 w-2/3" />
+          <div class="mt-3 flex gap-2">
+            <Skeleton class="h-5 w-16 rounded-full" />
+            <Skeleton class="h-5 w-12 rounded-full" />
           </div>
         </div>
       </div>
     </div>
 
     <!-- Recipe waterfall -->
-    <div v-else-if="allRecipes.length > 0" class="flex gap-4">
-      <div
-        v-for="(col, colIdx) in columns"
-        :key="colIdx"
-        class="flex flex-1 flex-col gap-4"
-      >
-        <RecipeCard v-for="recipe in col" :key="recipe.id" :recipe="recipe" />
-      </div>
+    <div
+      v-else-if="allRecipes.length > 0"
+      class="columns-1 gap-4 sm:columns-2 lg:columns-3"
+    >
+      <RecipeCard
+        v-for="recipe in allRecipes"
+        :key="recipe.id"
+        :recipe="recipe"
+        class="mb-4 break-inside-avoid"
+      />
     </div>
 
     <!-- Empty state -->
@@ -224,12 +218,9 @@ useIntersectionObserver(sentinelRef, ([entry]) => {
       <p class="mt-4 text-lg text-(--color-on-surface-muted)">
         {{ t("暂无食谱") }}
       </p>
-      <a
-        href="/recipes/new"
-        class="mt-4 inline-flex items-center gap-2 rounded bg-(--color-primary) px-5 py-2.5 text-sm font-semibold text-(--color-on-primary) transition-colors hover:bg-(--color-primary-hover)"
-      >
+      <Button @click="navigate('/recipe/new')">
         {{ t("新建食谱") }}
-      </a>
+      </Button>
     </div>
 
     <!-- Sentinel + loading indicator -->

@@ -173,29 +173,6 @@ export default defineConfig({
     "typescript/unbound-method": "error",
     "typescript/use-unknown-in-catch-callback-variable": "error",
   },
-  overrides: [
-    {
-      files: ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"],
-      rules: {
-        "no-class-assign": "off",
-        "no-const-assign": "off",
-        "no-dupe-class-members": "off",
-        "no-dupe-keys": "off",
-        "no-func-assign": "off",
-        "no-import-assign": "off",
-        "no-new-native-nonconstructor": "off",
-        "no-obj-calls": "off",
-        "no-redeclare": "off",
-        "no-setter-return": "off",
-        "no-this-before-super": "off",
-        "no-unsafe-negation": "off",
-        "no-var": "error",
-        "no-with": "off",
-        "prefer-rest-params": "error",
-        "prefer-spread": "error",
-      },
-    },
-  ],
 
   options: {
     typeAware: true,

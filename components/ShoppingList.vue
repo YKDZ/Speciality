@@ -70,7 +70,7 @@ const isSingleRecipe = computed(() => {
 });
 
 const amountDisplay = (a: { quantity?: string; unit?: string }) =>
-  a.quantity || a.unit ? `${a.quantity ?? ""} ${a.unit ?? ""}` : "—";
+  a.quantity || a.unit ? `${a.quantity ?? ""} ${a.unit ?? ""}` : "-";
 
 const groupedItems = computed(() => groupShoppingItems(props.items));
 const mergedItems = computed(() => buildMergedItems(groupedItems.value));
@@ -140,7 +140,7 @@ const handleCopyText = () => {
                 </div>
               </TableCell>
               <TableCell class="text-sm text-(--color-on-surface-muted)">
-                {{ item.note || "—" }}
+                {{ item.note || "-" }}
               </TableCell>
             </TableRow>
           </template>
@@ -165,7 +165,7 @@ const handleCopyText = () => {
                 </div>
               </TableCell>
               <TableCell class="text-sm text-(--color-on-surface-muted)">
-                {{ item.note || "—" }}
+                {{ item.note || "-" }}
               </TableCell>
             </TableRow>
           </template>

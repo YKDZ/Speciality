@@ -26,9 +26,9 @@ paths: ["**/*.{vue,css,scss,sass,less}"]
 ```vue
 <template>
   <div class="p-4 bg-white rounded-xl shadow-md">
-    <button class="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600">
+    <Button class="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600">
       Toggle
-    </button>
+    </Button>
     <ChildComponent class="custom-wrapper" />
   </div>
 </template>

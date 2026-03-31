@@ -20,7 +20,7 @@ defineProps<{
 </script>
 
 <template>
-  <a :href="`/recipes/${recipe.id}`" class="block">
+  <a :href="`/recipe/${recipe.id}`" class="block">
     <Card class="overflow-hidden py-0 transition-shadow hover:shadow-md">
       <!-- Cover Image -->
       <div
@@ -54,7 +54,7 @@ defineProps<{
         <div class="mt-3 flex flex-wrap items-center gap-2">
           <Badge v-if="recipe.estimatedTime" variant="outline">
             <Clock class="mr-1 h-3 w-3" />
-            {{ recipe.estimatedTime }}{{ t("分钟") }}
+            {{ t("{time} 分钟", { time: recipe.estimatedTime }) }}
           </Badge>
           <Badge
             v-for="tag in recipe.tags"

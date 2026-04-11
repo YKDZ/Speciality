@@ -74,7 +74,7 @@
     "@tailwindcss/vite": "^4.2.1",
     "@types/better-sqlite3": "^7.6.13",
     "@types/mdast": "^4.0.4",
-    "@types/node": "^20.19.37",
+    "@types/node": "^25.6.0",
     "@types/sortablejs": "^1.15.9",
     "@vitejs/plugin-vue": "^6.0.5",
     "@vue/test-utils": "^2.4.6",

@@ -59,7 +59,7 @@
     "tailwind-merge": "^3.5.0",
     "telefunc": "^0.2.19",
     "unified": "^11.0.5",
-    "uuid": "^13.0.0",
+    "uuid": "^14.0.0",
     "vaul-vue": "^0.4.1",
     "vike": "^0.4.255",
     "vike-photon": "^0.1.24",
